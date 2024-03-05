@@ -1,6 +1,17 @@
 {
     "require": {
+        "php": "^8.2",
         "slim/slim": "4.*",
-        "slim/psr7": "^1.6"
+        "slim/psr7": "^1.6",
+        "willdurand/negotiation": "^3.1",
+        "joshtronic/php-loremipsum": "^2.1",
+        "lukasoppermann/http-status": "^4.0",
+        "ramsey/uuid": "^4.7",
+        "genphrase/genphrase": "^1.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "tthe\\UtilTool\\": "src/"
+        }
     }
 }
