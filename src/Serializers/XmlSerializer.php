@@ -6,9 +6,9 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Views\PhpRenderer;
 use tthe\UtilTool\ServiceResponse;
 
-class HtmlSerializer implements SerializerInterface
+class XmlSerializer implements SerializerInterface
 {
-    public const CONTENT_TYPE = 'text/html; charset=UTF-8';
+    public const CONTENT_TYPE = 'application/xml';
     private ResponseInterface $response;
     private PhpRenderer $renderer;
 
@@ -18,9 +18,9 @@ class HtmlSerializer implements SerializerInterface
         $this->renderer = new PhpRenderer('../templates');
     }
 
-    public function serialize(ServiceResponse $data): ResponseInterface
-    {
-        return $this->renderer->render($this->response, "html_view.php", [])
+public function serialize(ServiceResponse $data): ResponseInterface
+{
+    return $this->renderer->render($this->response, 'xml_view.php', ['data' => $data])
             ->withHeader('Content-Type', self::CONTENT_TYPE);
-    }
+}
 }

@@ -2,11 +2,10 @@
 
 namespace tthe\UtilTool\Serializers;
 
+use Psr\Http\Message\ResponseInterface;
 use tthe\UtilTool\ServiceResponse;
 
 interface SerializerInterface
 {
-    public function getContentType(): string;
-    
-    public function serialize(ServiceResponse $response): string;
+    public function serialize(ServiceResponse $data): ResponseInterface;
 }

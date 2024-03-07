@@ -2,43 +2,47 @@
 
 namespace tthe\UtilTool\Serializers;
 
+use Psr\Http\Message\ResponseInterface;
 use tthe\UtilTool\ServiceResponse;
 
 class JsonSerializer implements SerializerInterface
 {
     public const CONTENT_TYPE = 'application/json';
-    
-    public function serialize(ServiceResponse $response): string
+    private ResponseInterface $response;
+
+    public function __construct(ResponseInterface $response)
     {
-        $data = [
+        $this->response = $response;
+    }
+
+    public function serialize(ServiceResponse $data): ResponseInterface
+    {
+        $jsonData = [
             'status' => [
-                'code' => $response->status->code,
-                'message' => $response->status->message
+                'code' => $data->status->code,
+                'message' => $data->status->message
             ],
             'utilities' => [
                 'date' => [
-                    'iso' => $response->utilities->getTimeIso(),
-                    'http' => $response->utilities->getTimeHttp(),
-                    'unix' => $response->utilities->getTimeUnix(),
+                    'iso' => $data->utilities->getTimeIso(),
+                    'http' => $data->utilities->getTimeHttp(),
+                    'unix' => $data->utilities->getTimeUnix(),
                 ],
                 'random' => [
-                    'uuid' => $response->utilities->getUuid(),
-                    'string' => $response->utilities->getPassword(),
-                    'phrase' => $response->utilities->getPhrase(),
-                    'sentence' => $response->utilities->getPlaceholder(),
+                    'uuid' => $data->utilities->getUuid(),
+                    'string' => $data->utilities->getPassword(),
+                    'phrase' => $data->utilities->getPhrase(),
+                    'sentence' => $data->utilities->getPlaceholder(),
                     'bytes' => [
-                        'hex' => $response->utilities->getBytesHex(),
-                        'int' => $response->utilities->getBytesInt()
+                        'hex' => $data->utilities->getBytesHex(),
+                        'int' => $data->utilities->getBytesInt()
                     ]
                 ]
             ]
         ];
         
-        return json_encode($data);
-    }
-
-    public function getContentType(): string
-    {
-        return self::CONTENT_TYPE;
+        $this->response->getBody()->write(json_encode($jsonData));
+        return $this->response
+            ->withHeader('Content-Type', self::CONTENT_TYPE);
     }
 }

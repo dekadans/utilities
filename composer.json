@@ -7,7 +7,8 @@
         "joshtronic/php-loremipsum": "^2.1",
         "lukasoppermann/http-status": "^4.0",
         "ramsey/uuid": "^4.7",
-        "genphrase/genphrase": "^1.2"
+        "genphrase/genphrase": "^1.2",
+        "slim/php-view": "^3.2"
     },
     "autoload": {
         "psr-4": {

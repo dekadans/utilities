@@ -13,7 +13,8 @@ class SerializationFactory
     {
         return [
             'html' => HtmlSerializer::CONTENT_TYPE,
-            'json' => JsonSerializer::CONTENT_TYPE
+            'json' => JsonSerializer::CONTENT_TYPE,
+            'xml' => XmlSerializer::CONTENT_TYPE
         ];
     }
 
@@ -37,8 +38,9 @@ class SerializationFactory
         }
 
         return match ($selected) {
-            HtmlSerializer::CONTENT_TYPE => new HtmlSerializer(),
-            JsonSerializer::CONTENT_TYPE => new JsonSerializer(),
+            HtmlSerializer::CONTENT_TYPE => new HtmlSerializer($response),
+            JsonSerializer::CONTENT_TYPE => new JsonSerializer($response),
+            XmlSerializer::CONTENT_TYPE => new XmlSerializer($response),
             default => throw new \RuntimeException('Invalid serialization'),
         };
     }

@@ -22,10 +22,9 @@ $app->any('/', function (Request $request, Response $response, $args) {
 
     $data = new ServiceResponse($request);
 
-    $response->getBody()->write($serializer->serialize($data));
+    $response = $serializer->serialize($data);
     return $response
-        ->withStatus($data->status->code)
-        ->withHeader('Content-Type', $serializer->getContentType());
+        ->withStatus($data->status->code);
 });
 
 $app->run();
