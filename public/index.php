@@ -10,7 +10,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $app = AppFactory::create();
 
-//$app->addBodyParsingMiddleware();
+$app->addBodyParsingMiddleware();
 $app->addRoutingMiddleware();
 $errorMiddleware = $app->addErrorMiddleware(true, false, false);
 
@@ -19,12 +19,10 @@ $app->add($contentLengthMiddleware);
 
 $app->any('/', function (Request $request, Response $response, $args) {
     $serializer = SerializationFactory::make($request, $response);
-
     $data = new ServiceResponse($request);
-
     $response = $serializer->serialize($data);
-    return $response
-        ->withStatus($data->status->code);
+
+    return $response->withStatus($data->status->code);
 });
 
 $app->run();

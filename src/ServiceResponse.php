@@ -2,16 +2,15 @@
 
 namespace tthe\UtilTool;
 
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 readonly class ServiceResponse
 {
     public Status $status;
-
     public Utilities $utilities;
-    public RequestInterface $request;
+    public ServerRequestInterface $request;
 
-    public function __construct(RequestInterface $request)
+    public function __construct(ServerRequestInterface $request)
     {
         $this->request = $request;
         $this->status = new Status($this->request);

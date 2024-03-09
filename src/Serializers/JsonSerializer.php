@@ -7,6 +7,8 @@ use tthe\UtilTool\ServiceResponse;
 
 class JsonSerializer implements SerializerInterface
 {
+    use ArraySerializer;
+
     public const CONTENT_TYPE = 'application/json';
     private ResponseInterface $response;
 
@@ -17,31 +19,12 @@ class JsonSerializer implements SerializerInterface
 
     public function serialize(ServiceResponse $data): ResponseInterface
     {
-        $jsonData = [
-            'status' => [
-                'code' => $data->status->code,
-                'message' => $data->status->message
-            ],
-            'utilities' => [
-                'date' => [
-                    'iso' => $data->utilities->getTimeIso(),
-                    'http' => $data->utilities->getTimeHttp(),
-                    'unix' => $data->utilities->getTimeUnix(),
-                ],
-                'random' => [
-                    'uuid' => $data->utilities->getUuid(),
-                    'string' => $data->utilities->getPassword(),
-                    'phrase' => $data->utilities->getPhrase(),
-                    'sentence' => $data->utilities->getPlaceholder(),
-                    'bytes' => [
-                        'hex' => $data->utilities->getBytesHex(),
-                        'int' => $data->utilities->getBytesInt()
-                    ]
-                ]
-            ]
-        ];
+        $jsonData = json_encode(
+            $this->toArray($data),
+            JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT
+        );
         
-        $this->response->getBody()->write(json_encode($jsonData));
+        $this->response->getBody()->write($jsonData);
         return $this->response
             ->withHeader('Content-Type', self::CONTENT_TYPE);
     }
