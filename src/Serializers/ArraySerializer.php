@@ -34,9 +34,14 @@ trait ArraySerializer
         $body = $request->getBody()->getContents() ?: null;
         
         if ($body) {
+            $parsed = $request->getParsedBody();
+            if ($parsed instanceof \SimpleXMLElement) {
+                $parsed = json_decode(json_encode($parsed), true);
+            }
+
             $bodySerialized = [
                 'raw' => $body,
-                'parsed' => $request->getParsedBody(),
+                'parsed' => $parsed,
                 'md5' => md5($body),
                 'sha1' => sha1($body),
                 'sha256' => hash('sha256', $body)
