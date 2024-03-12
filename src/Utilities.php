@@ -62,9 +62,9 @@ readonly class Utilities
         }
     }
 
-    public function getPlaceholder(): string
+    public function getSentences(): array
     {
-        return (new LoremIpsum())->sentence();
+        return (new LoremIpsum())->sentences(3, false, true);
     }
 
     public function getBytesHex(): string

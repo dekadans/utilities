@@ -3,6 +3,7 @@
 namespace tthe\UtilTool\Serializers;
 
 use Psr\Http\Message\ServerRequestInterface;
+use tthe\UtilTool\RequestBody;
 use tthe\UtilTool\ServiceResponse;
 use tthe\UtilTool\Status;
 use tthe\UtilTool\Utilities;
@@ -13,7 +14,7 @@ trait ArraySerializer
     {
         return [
             'status' => $this->serializeStatus($data->status),
-            'request' => $this->serializeRequest($data->request),
+            'request' => $this->serializeRequest($data->request, $data->body),
             'utilities' => [
                 'date' => $this->serializeDate($data->utilities),
                 'random' => $this->serializeRandom($data->utilities)
@@ -29,22 +30,15 @@ trait ArraySerializer
         ];
     }
     
-    private function serializeRequest(ServerRequestInterface $request): array
+    private function serializeRequest(ServerRequestInterface $request, RequestBody $body): array
     {
-        $body = $request->getBody()->getContents() ?: null;
-        
-        if ($body) {
-            $parsed = $request->getParsedBody();
-            if ($parsed instanceof \SimpleXMLElement) {
-                $parsed = json_decode(json_encode($parsed), true);
-            }
-
+        if ($body->hasBody()) {
             $bodySerialized = [
-                'raw' => $body,
-                'parsed' => $parsed,
-                'md5' => md5($body),
-                'sha1' => sha1($body),
-                'sha256' => hash('sha256', $body)
+                'raw' => $body->getRaw(),
+                'parsed' => $body->getParsed(),
+                'md5' => md5($body->getRaw()),
+                'sha1' => sha1($body->getRaw()),
+                'sha256' => hash('sha256', $body->getRaw())
             ];
         }
         
@@ -71,7 +65,7 @@ trait ArraySerializer
             'uuid' => $utilities->getUuid(),
             'string' => $utilities->getPassword(),
             'phrase' => $utilities->getPhrase(),
-            'sentence' => $utilities->getPlaceholder(),
+            'sentence' => $utilities->getSentences(),
             'bytes' => [
                 'hex' => $utilities->getBytesHex(),
                 'int' => $utilities->getBytesInt()
