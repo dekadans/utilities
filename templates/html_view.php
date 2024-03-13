@@ -13,6 +13,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HTTP Utilities</title>
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <style>
+        #request-body-container code {
+            font-size: 0.9rem;
+        }
+        #request-body-container pre {
+            line-height: 1;
+            tab-size: 2;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -132,32 +141,50 @@
                 </table>
             <?php endif; ?>
 
-            <?php if ($body->hasBody()): ?>
-                <h3>Body</h3>
-                <pre><code><?= htmlspecialchars($body->getRaw()) ?></code></pre>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Algorithm</th>
-                            <th>Hash</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>MD5</td>
-                            <td><?= md5($body->getRaw()) ?></td>
-                        </tr>
-                        <tr>
-                            <td>SHA-1</td>
-                            <td><?= sha1($body->getRaw()) ?></td>
-                        </tr>
-                        <tr>
-                            <td>SHA-256</td>
-                            <td><?= hash('sha256', $body->getRaw()) ?></td>
-                        </tr>
-                    </tbody>
-                </table>
-            <?php endif; ?>
+            <div id="request-body-container">
+                <h3 id="request-body">Body</h3>
+                <?php if ($body->hasBody()): ?>
+                    <pre><code><?= htmlspecialchars($body->getRaw()) ?></code></pre>
+
+                    <details>
+                        <summary>Hash</summary>
+                        <p>
+                            MD5:<br>
+                            <code><?= md5($body->getRaw()) ?></code>
+                        </p>
+                        <p>
+                            SHA-1:<br>
+                            <code><?= sha1($body->getRaw()) ?></code>
+                        </p>
+                        <p>
+                            SHA-256:<br>
+                            <code><?= hash('sha256', $body->getRaw()) ?></code>
+                        </p>
+                    </details>
+
+                    <details>
+                        <summary>Base64</summary>
+                        <pre><code><code><?= base64_encode($body->getRaw()) ?></code></code></pre>
+                    </details>
+
+                    <details>
+                        <summary>URL Encoded</summary>
+                        <pre><code><code><?= rawurlencode($body->getRaw()) ?></code></code></pre>
+                    </details>
+                <?php endif; ?>
+
+                <form method="post" action="#request-body">
+                    <p>
+                        <label for="_body">
+                            Send a POST request with a given body:
+                        </label>
+                        <textarea id="_body" name="_body" rows="6"></textarea>
+                    </p>
+                    <p>
+                        <button>Send</button>
+                    </p>
+                </form>
+            </div>
         </section>
     </main>
 

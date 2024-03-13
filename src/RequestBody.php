@@ -12,6 +12,7 @@ class RequestBody
     public function __construct(ServerRequestInterface $request)
     {
         $this->request = $request;
+        $this->request->getBody()->rewind();
         $this->value = $this->request->getBody()->getContents() ?: null;
     }
     

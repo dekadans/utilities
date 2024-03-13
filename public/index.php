@@ -3,6 +3,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 use Slim\Middleware\ContentLengthMiddleware;
+use tthe\UtilTool\BodyOverrideMiddleware;
 use tthe\UtilTool\Serializers\SerializationFactory;
 use tthe\UtilTool\ServiceResponse;
 
@@ -10,8 +11,9 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $app = AppFactory::create();
 
-$app->addBodyParsingMiddleware();
 $app->addRoutingMiddleware();
+$app->addBodyParsingMiddleware();
+$app->add(new BodyOverrideMiddleware());
 $errorMiddleware = $app->addErrorMiddleware(true, false, false);
 
 $contentLengthMiddleware = new ContentLengthMiddleware();

@@ -38,7 +38,9 @@ trait ArraySerializer
                 'parsed' => $body->getParsed(),
                 'md5' => md5($body->getRaw()),
                 'sha1' => sha1($body->getRaw()),
-                'sha256' => hash('sha256', $body->getRaw())
+                'sha256' => hash('sha256', $body->getRaw()),
+                'base64' => base64_encode($body->getRaw()),
+                'url_encoded' => rawurlencode($body->getRaw())
             ];
         }
         
