@@ -166,11 +166,6 @@
                         <summary>Base64</summary>
                         <pre><code><code><?= base64_encode($body->getRaw()) ?></code></code></pre>
                     </details>
-
-                    <details>
-                        <summary>URL Encoded</summary>
-                        <pre><code><code><?= rawurlencode($body->getRaw()) ?></code></code></pre>
-                    </details>
                 <?php endif; ?>
 
                 <form method="post" action="#request-body">

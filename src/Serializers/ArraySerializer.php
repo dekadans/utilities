@@ -14,11 +14,9 @@ trait ArraySerializer
     {
         return [
             'status' => $this->serializeStatus($data->status),
-            'request' => $this->serializeRequest($data->request, $data->body),
-            'utilities' => [
-                'date' => $this->serializeDate($data->utilities),
-                'random' => $this->serializeRandom($data->utilities)
-            ]
+            'date' => $this->serializeDate($data->utilities),
+            'random' => $this->serializeRandom($data->utilities),
+            'request' => $this->serializeRequest($data->request, $data->body)
         ];
     }
     
@@ -39,8 +37,7 @@ trait ArraySerializer
                 'md5' => md5($body->getRaw()),
                 'sha1' => sha1($body->getRaw()),
                 'sha256' => hash('sha256', $body->getRaw()),
-                'base64' => base64_encode($body->getRaw()),
-                'url_encoded' => rawurlencode($body->getRaw())
+                'base64' => base64_encode($body->getRaw())
             ];
         }
         
