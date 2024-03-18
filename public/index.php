@@ -6,6 +6,7 @@ use Slim\Middleware\ContentLengthMiddleware;
 use tthe\UtilTool\BodyOverrideMiddleware;
 use tthe\UtilTool\Serializers\SerializationFactory;
 use tthe\UtilTool\ServiceResponse;
+use tthe\UtilTool\UriFactory;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -19,12 +20,22 @@ $errorMiddleware = $app->addErrorMiddleware(true, false, false);
 $contentLengthMiddleware = new ContentLengthMiddleware();
 $app->add($contentLengthMiddleware);
 
-$app->any('/', function (Request $request, Response $response, $args) {
-    $serializer = SerializationFactory::make($request, $response);
+$app->get('/meta/schemas/{format}', function (Request $request, Response $response, $args) {
+    $response->getBody()->write($args['format']);
+    return $response;
+})->setName('schema');
+
+$app->any('/', function (Request $request, Response $response, $args) use ($app) {
+    $uriFactory = new UriFactory(
+        $request,
+        $app->getRouteCollector()->getRouteParser()
+    );
+
+    $serializer = SerializationFactory::make($request, $response, $uriFactory);
     $data = new ServiceResponse($request);
     $response = $serializer->serialize($data);
 
     return $response->withStatus($data->status->code);
-});
+})->setName('main');
 
 $app->run();

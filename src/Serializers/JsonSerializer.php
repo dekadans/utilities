@@ -4,6 +4,7 @@ namespace tthe\UtilTool\Serializers;
 
 use Psr\Http\Message\ResponseInterface;
 use tthe\UtilTool\ServiceResponse;
+use tthe\UtilTool\UriFactory;
 
 class JsonSerializer implements SerializerInterface
 {
@@ -11,16 +12,27 @@ class JsonSerializer implements SerializerInterface
 
     public const CONTENT_TYPE = 'application/json';
     private ResponseInterface $response;
+    private UriFactory $uriFactory;
 
-    public function __construct(ResponseInterface $response)
+    public function __construct(ResponseInterface $response, UriFactory $uriFactory)
     {
         $this->response = $response;
+        $this->uriFactory = $uriFactory;
     }
 
     public function serialize(ServiceResponse $data): ResponseInterface
     {
+        $links = [
+            '_links' => [
+                'describedby' => [
+                    'href' => $this->uriFactory->jsonSchema(),
+                    'title' => 'JSON Schema'
+                ]
+            ]
+        ];
+
         $jsonData = json_encode(
-            $this->toArray($data),
+            array_merge($links, $this->toArray($data)),
             JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT
         );
         
