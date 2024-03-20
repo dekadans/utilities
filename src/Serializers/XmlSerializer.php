@@ -12,7 +12,7 @@ class XmlSerializer implements SerializerInterface
     use ArraySerializer;
 
     public const CONTENT_TYPE = 'application/xml';
-    public const NAMESPACE = 'tag:tthe.se,2024:projects:utiltool:xmlns';
+    public const NAMESPACE = 'tag:tthe.se,2024:projects:utiltool:xml:ns';
     private ResponseInterface $response;
     private UriFactory $uriFactory;
 

@@ -13,6 +13,7 @@ trait ArraySerializer
     private function toArray(ServiceResponse $data): array
     {
         return [
+            'about' => $data->getAbout(),
             'status' => $this->serializeStatus($data->status),
             'date' => $this->serializeDate($data->utilities),
             'random' => $this->serializeRandom($data->utilities),

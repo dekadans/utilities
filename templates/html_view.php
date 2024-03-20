@@ -1,5 +1,6 @@
 <?php
 /**
+ * @var string $about
  * @var \tthe\UtilTool\Status $status
  * @var \Psr\Http\Message\ServerRequestInterface $request
  * @var \tthe\UtilTool\RequestBody $body
@@ -32,7 +33,7 @@
         <h1><?= $status->code . ' ' . $status->message ?></h1>
     </header>
     <main>
-        <p>This is a small utility website that will generate some useful values and print information about the HTTP request.</p>
+        <p><?= $about ?></p>
         <details>
             <summary>Details</summary>
             <p>
