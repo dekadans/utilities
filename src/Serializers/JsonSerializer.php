@@ -22,10 +22,11 @@ class JsonSerializer implements SerializerInterface
 
     public function serialize(ServiceResponse $data): ResponseInterface
     {
+        $schema = $this->uriFactory->jsonSchema();
         $links = [
             '_links' => [
                 'describedby' => [
-                    'href' => $this->uriFactory->jsonSchema(),
+                    'href' => $schema,
                     'title' => 'JSON Schema'
                 ]
             ]
@@ -38,6 +39,7 @@ class JsonSerializer implements SerializerInterface
         
         $this->response->getBody()->write($jsonData);
         return $this->response
-            ->withHeader('Content-Type', self::CONTENT_TYPE);
+            ->withHeader('Content-Type', self::CONTENT_TYPE)
+            ->withHeader('Link', "<$schema>; rel=\"describedby\"; title=\"JSON Schema\"");
     }
 }

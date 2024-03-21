@@ -1,4 +1,255 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "tag:tthe.se,2024:projects:utiltool:json:schema"
+    "$id": "tag:tthe.se,2024:projects:utiltool:json:schema",
+    "type": "object",
+    "properties": {
+        "_links": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "object",
+                "properties": {
+                    "href": {
+                        "type": "string",
+                        "format": "uri"
+                    },
+                    "title": {
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": false,
+                "required": [
+                    "href",
+                    "title"
+                ]
+            }
+        },
+        "about": {
+            "description": "Short description about the document.",
+            "type": "string"
+        },
+        "status": {
+            "type": "object",
+            "description": "HTTP status code and message for the request that generated the document.",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false,
+            "required": [
+                "code",
+                "message"
+            ]
+        },
+        "date": {
+            "type": "object",
+            "description": "UTC time of generation in various forms.",
+            "properties": {
+                "iso": {
+                    "type": "string",
+                    "description": "ISO 8601 datetime.",
+                    "format": "date-time"
+                },
+                "http": {
+                    "type": "string",
+                    "description": "Datetime in form defined for HTTP in RFC 7231."
+                },
+                "unix": {
+                    "type": "string",
+                    "description": "Unix epoch timetsamp."
+                }
+            },
+            "additionalProperties": false,
+            "required": [
+                "iso",
+                "http",
+                "unix"
+            ]
+        },
+        "random": {
+            "type": "object",
+            "properties": {
+                "uuid": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "Random version 4 UUID."
+                },
+                "string": {
+                    "type": "string",
+                    "description": "A random string of 20 characters, including upper- and lowercase characters, numbers and symbols.",
+                    "minLength": 20,
+                    "maxLength": 20
+                },
+                "phrase": {
+                    "type": "string",
+                    "description": "A random phrase of six English words. From EFF's diceware list."
+                },
+                "sentence": {
+                    "type": "array",
+                    "description": "Three random Lorem Ipsum sentences.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "minItems": 3,
+                    "maxItems": 3
+                },
+                "bytes": {
+                    "type": "object",
+                    "description": "32 random and cryptographically secure bytes.",
+                    "properties": {
+                        "hex": {
+                            "type": "string",
+                            "description": "Bytes as a hexadecimal string.",
+                            "minLength": 64,
+                            "maxLength": 64
+                        },
+                        "int": {
+                            "type": "array",
+                            "description": "Bytes as a list of decimal integers.",
+                            "items": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 255
+                            },
+                            "minItems": 32,
+                            "maxItems": 32
+                        }
+                    },
+                    "additionalProperties": false,
+                    "required": [
+                        "hex",
+                        "int"
+                    ]
+                }
+            },
+            "additionalProperties": false,
+            "required": [
+                "uuid",
+                "string",
+                "phrase",
+                "sentence",
+                "bytes"
+            ]
+        },
+        "request": {
+            "type": "object",
+            "description": "Information about the HTTP request that generated the document.",
+            "properties": {
+                "method": {
+                    "type": "string",
+                    "description": "HTTP method.",
+                    "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"]
+                },
+                "headers": {
+                    "type": "object",
+                    "description": "Headers sent in the HTTP request.",
+                    "additionalProperties": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "query": {
+                    "description": "The provided URI query, as a raw string and parsed data.",
+                    "oneOf": [
+                        {
+                            "unevaluatedProperties": false,
+                            "$ref": "#/$defs/parsedData"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "body": {
+                    "description": "The provided request body, as a raw string, parsed data and various hashes and encodings.",
+                    "oneOf": [
+                        {
+                            "type": "null"
+                        },
+                        {
+                            "unevaluatedProperties": false,
+                            "allOf": [
+                                {
+                                    "$ref": "#/$defs/parsedData"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "md5": {
+                                            "type": "string",
+                                            "description": "MD5 hash of the request body.",
+                                            "minLength": 32,
+                                            "maxLength": 32
+                                        },
+                                        "sha1": {
+                                            "type": "string",
+                                            "description": "SHA-1 hash of the request body.",
+                                            "minLength": 40,
+                                            "maxLength": 40
+                                        },
+                                        "sha256": {
+                                            "type": "string",
+                                            "description": "SHA-256 hash of the request body.",
+                                            "minLength": 64,
+                                            "maxLength": 64
+                                        },
+                                        "base64": {
+                                            "type": "string",
+                                            "description": "The Base64-encoded contents of the request body."
+                                        }
+                                    },
+                                    "required": [
+                                        "md5",
+                                        "sha1",
+                                        "sha256",
+                                        "base64"
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            "additionalProperties": false,
+            "required": [
+                "method",
+                "headers",
+                "query",
+                "body"
+            ]
+        }
+    },
+    "additionalProperties": false,
+    "required": [
+        "_links",
+        "about",
+        "status",
+        "date",
+        "random",
+        "request"
+    ],
+    "$defs": {
+        "parsedData": {
+            "type": "object",
+            "properties": {
+                "raw": {
+                    "type": "string",
+                    "description": "The raw data."
+                },
+                "parsed": {
+                    "description": "The data parsed as JSON, if possible."
+                }
+            },
+            "required": [
+                "raw",
+                "parsed"
+            ]
+        }
+    }
 }
+

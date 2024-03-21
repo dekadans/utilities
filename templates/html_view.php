@@ -174,7 +174,7 @@
                         <label for="_body">
                             Send a POST request with a given body:
                         </label>
-                        <textarea id="_body" name="_body" rows="6"></textarea>
+                        <textarea required id="_body" name="_body" rows="6"></textarea>
                     </p>
                     <p>
                         <button>Send</button>

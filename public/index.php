@@ -38,18 +38,22 @@ $app->get('/meta/schemas/{format}', function (Request $request, Response $respon
 })->setName('schema');
 
 
-$app->any('/', function (Request $request, Response $response, $args) use ($app) {
-    $uriFactory = new UriFactory(
-        $request,
-        $app->getRouteCollector()->getRouteParser()
-    );
+$app->map(
+    ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    '/',
+    function (Request $request, Response $response, $args) use ($app) {
+        $uriFactory = new UriFactory(
+            $request,
+            $app->getRouteCollector()->getRouteParser()
+        );
 
-    $serializer = SerializationFactory::make($request, $response, $uriFactory);
-    $data = new ServiceResponse($request);
-    $response = $serializer->serialize($data);
+        $serializer = SerializationFactory::make($request, $response, $uriFactory);
+        $data = new ServiceResponse($request);
+        $response = $serializer->serialize($data);
 
-    return $response->withStatus($data->status->code);
-})->setName('main');
+        return $response->withStatus($data->status->code);
+    }
+)->setName('main');
 
 
 $app->run();

@@ -42,10 +42,17 @@ trait ArraySerializer
             ];
         }
         
+        if (!empty($request->getQueryParams())) {
+            $querySerialized = [
+                'raw' => $request->getUri()->getQuery(),
+                'parsed' => $request->getQueryParams()
+            ];
+        }
+
         return [
             'method' => $request->getMethod(),
             'headers' => $request->getHeaders(),
-            'query' => $request->getQueryParams(),
+            'query' => $querySerialized ?? null,
             'body' => $bodySerialized ?? null
         ];
     }
