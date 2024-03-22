@@ -6,6 +6,7 @@ use Slim\Factory\AppFactory;
 use Slim\Middleware\ContentLengthMiddleware;
 use Slim\Psr7\Factory\StreamFactory;
 use tthe\UtilTool\BodyOverrideMiddleware;
+use tthe\UtilTool\Exceptions\HttpPayloadTooLargeException;
 use tthe\UtilTool\Serializers\SerializationFactory;
 use tthe\UtilTool\ServiceResponse;
 use tthe\UtilTool\UriFactory;
@@ -17,7 +18,7 @@ $app = AppFactory::create();
 $app->addRoutingMiddleware();
 $app->addBodyParsingMiddleware();
 $app->add(new BodyOverrideMiddleware());
-$errorMiddleware = $app->addErrorMiddleware(true, false, false);
+$errorMiddleware = $app->addErrorMiddleware(false, false, false);
 
 $contentLengthMiddleware = new ContentLengthMiddleware();
 $app->add($contentLengthMiddleware);
@@ -42,6 +43,10 @@ $app->map(
     ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     '/',
     function (Request $request, Response $response, $args) use ($app) {
+        if (strlen($request->getBody()->getContents()) > 10000) {
+            throw new HttpPayloadTooLargeException($request);
+        }
+
         $uriFactory = new UriFactory(
             $request,
             $app->getRouteCollector()->getRouteParser()
