@@ -1,4 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema targetNamespace="tag:tthe.se,2024:projects:utiltool:xml:ns" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="tag:tthe.se,2024:projects:utiltool:xml:ns"
+           xmlns="tag:tthe.se,2024:projects:utiltool:xml:ns"
+           elementFormDefault="qualified">
+
+    <xs:element name="response">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="about" type="xs:string"/>
+                <xs:element name="status" type="statusType"/>
+                <xs:element name="date" type="dateType"/>
+                <xs:element name="random" type="randomType"/>
+                <xs:element name="request" type="requestType"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="statusType">
+        <xs:sequence>
+            <xs:element name="code" type="xs:integer"/>
+            <xs:element name="message" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="dateType">
+        <xs:sequence>
+            <xs:element name="iso" type="xs:dateTime"/>
+            <xs:element name="http" type="xs:string"/>
+            <xs:element name="unix" type="xs:integer"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="randomType">
+        <xs:sequence>
+            <xs:element name="uuid" type="xs:string"/>
+            <xs:element name="string" type="xs:string"/>
+            <xs:element name="phrase" type="xs:string"/>
+            <xs:element name="sentence" type="xs:string" minOccurs="3" maxOccurs="3"/>
+            <xs:element name="bytes" type="bytesType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="bytesType">
+        <xs:sequence>
+            <xs:element name="hex" type="xs:string"/>
+            <xs:element name="int" type="xs:integer" minOccurs="32" maxOccurs="32"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="requestType">
+        <xs:sequence>
+            <xs:element name="method" type="xs:string"/>
+            <xs:element name="headers">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:any maxOccurs="unbounded" processContents="lax"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="query" nillable="true" type="queryType"/>
+            <xs:element name="body" nillable="true" type="bodyType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="queryType">
+        <xs:sequence>
+            <xs:element name="raw" type="xs:string"/>
+            <xs:element name="parsed">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:any maxOccurs="unbounded" processContents="lax"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="bodyType">
+        <xs:sequence>
+            <xs:element name="raw" type="xs:string"/>
+            <xs:element name="parsed" nillable="true">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:any maxOccurs="unbounded" processContents="lax"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="md5" type="xs:string"/>
+            <xs:element name="sha1" type="xs:string"/>
+            <xs:element name="sha256" type="xs:string"/>
+            <xs:element name="base64" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
 </xs:schema>

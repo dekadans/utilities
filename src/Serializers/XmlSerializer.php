@@ -33,12 +33,7 @@ class XmlSerializer implements SerializerInterface
             ]
         ];
 
-        $arrayData = $this->toArray($data);
-
-        $rawData = $arrayData['request']['body']['raw'] ?? null;
-        if ($rawData) {
-            $arrayData['request']['body']['raw'] = ['_cdata' => $rawData];
-        }
+        $arrayData = $this->toArray($data, true);
 
         $xmlData = new ArrayToXml(
             $arrayData,

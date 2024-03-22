@@ -10,14 +10,14 @@ use tthe\UtilTool\Utilities;
 
 trait ArraySerializer
 {
-    private function toArray(ServiceResponse $data): array
+    private function toArray(ServiceResponse $data, bool $isXml = false): array
     {
         return [
             'about' => $data->getAbout(),
             'status' => $this->serializeStatus($data->status),
             'date' => $this->serializeDate($data->utilities),
             'random' => $this->serializeRandom($data->utilities),
-            'request' => $this->serializeRequest($data->request, $data->body)
+            'request' => $this->serializeRequest($data->request, $data->body, $isXml)
         ];
     }
     
@@ -29,17 +29,22 @@ trait ArraySerializer
         ];
     }
     
-    private function serializeRequest(ServerRequestInterface $request, RequestBody $body): array
+    private function serializeRequest(ServerRequestInterface $request, RequestBody $body, bool $isXml): array
     {
         if ($body->hasBody()) {
+            $raw = $isXml ? ['_cdata' => $body->getRaw()] : $body->getRaw();
+            $parsed = $isXml && empty($body->getParsed()) ? $this->xmlNil() : $body->getParsed();
+
             $bodySerialized = [
-                'raw' => $body->getRaw(),
-                'parsed' => $body->getParsed(),
+                'raw' => $raw,
+                'parsed' => $parsed,
                 'md5' => md5($body->getRaw()),
                 'sha1' => sha1($body->getRaw()),
                 'sha256' => hash('sha256', $body->getRaw()),
                 'base64' => base64_encode($body->getRaw())
             ];
+        } else {
+            $bodySerialized = $isXml ? $this->xmlNil() : null;
         }
         
         if (!empty($request->getQueryParams())) {
@@ -47,13 +52,15 @@ trait ArraySerializer
                 'raw' => $request->getUri()->getQuery(),
                 'parsed' => $request->getQueryParams()
             ];
+        } else {
+            $querySerialized = $isXml ? $this->xmlNil() : null;
         }
 
         return [
             'method' => $request->getMethod(),
             'headers' => $request->getHeaders(),
-            'query' => $querySerialized ?? null,
-            'body' => $bodySerialized ?? null
+            'query' => $querySerialized,
+            'body' => $bodySerialized
         ];
     }
     
@@ -78,5 +85,10 @@ trait ArraySerializer
                 'int' => $utilities->getBytesInt()
             ]
         ];
+    }
+
+    private function xmlNil(): array
+    {
+        return ['_attributes' => ['xsi:nil' => 'true']];
     }
 }
