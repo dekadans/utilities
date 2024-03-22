@@ -4,7 +4,7 @@ namespace tthe\UtilTool\Serializers;
 
 use Psr\Http\Message\ResponseInterface;
 use tthe\UtilTool\ServiceResponse;
-use tthe\UtilTool\UriFactory;
+use tthe\UtilTool\Framework\UriFactory;
 
 class JsonSerializer implements SerializerInterface
 {

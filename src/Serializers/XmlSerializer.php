@@ -5,7 +5,7 @@ namespace tthe\UtilTool\Serializers;
 use Psr\Http\Message\ResponseInterface;
 use Spatie\ArrayToXml\ArrayToXml;
 use tthe\UtilTool\ServiceResponse;
-use tthe\UtilTool\UriFactory;
+use tthe\UtilTool\Framework\UriFactory;
 
 class XmlSerializer implements SerializerInterface
 {

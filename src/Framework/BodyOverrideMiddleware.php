@@ -1,6 +1,6 @@
 <?php
 
-namespace tthe\UtilTool;
+namespace tthe\UtilTool\Framework;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;

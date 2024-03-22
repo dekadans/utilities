@@ -6,7 +6,7 @@ use Negotiation\Negotiator;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use tthe\UtilTool\Exceptions\HttpNotAcceptableException;
-use tthe\UtilTool\UriFactory;
+use tthe\UtilTool\Framework\UriFactory;
 
 class SerializationFactory
 {

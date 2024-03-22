@@ -1,6 +1,6 @@
 <?php
 
-namespace tthe\UtilTool;
+namespace tthe\UtilTool\Framework;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Interfaces\RouteParserInterface;

@@ -5,11 +5,11 @@ use Slim\Exception\HttpNotFoundException;
 use Slim\Factory\AppFactory;
 use Slim\Middleware\ContentLengthMiddleware;
 use Slim\Psr7\Factory\StreamFactory;
-use tthe\UtilTool\BodyOverrideMiddleware;
+use tthe\UtilTool\Framework\BodyOverrideMiddleware;
 use tthe\UtilTool\Exceptions\HttpPayloadTooLargeException;
 use tthe\UtilTool\Serializers\SerializationFactory;
 use tthe\UtilTool\ServiceResponse;
-use tthe\UtilTool\UriFactory;
+use tthe\UtilTool\Framework\UriFactory;
 
 require __DIR__ . '/../vendor/autoload.php';
 
