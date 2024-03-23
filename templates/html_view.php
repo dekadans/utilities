@@ -12,7 +12,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTTP Utilities</title>
+    <title>utilities.</title>
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
     <style>
         #request-body-container code {
@@ -35,14 +35,41 @@
     <main>
         <p><?= $about ?></p>
         <details>
-            <summary>Details</summary>
+            <summary>Features</summary>
+            <ul>
+                <li>
+                    JSON &amp; XML versions, using the links above or the <code>Accept</code> header.
+                    <ul>
+                        <li>Schemas are available for both formats.</li>
+                    </ul>
+                </li>
+                <li>
+                    Date &amp; time information in various formats and for locations around the world.
+                </li>
+                <li>
+                    Useful randomly generated values.
+                </li>
+                <li>
+                    HTTP request inspection.
+                </li>
+                <li>
+                    Explicitly set the HTTP response code using the <code>status</code> query parameter.
+                    For example: <a href="?status=404">?status=404</a>.
+                </li>
+                <li>
+                    Request body hashing and encoding.
+                </li>
+            </ul>
             <p>
-                Information! Status code, content type, link to github
+            The source code is available at <a href="">Github</a>.
             </p>
         </details>
 
         <section>
             <h2>Date &amp; Time</h2>
+            <p>
+                The current UTC date and time in a few common formats.
+            </p>
             <table>
                 <thead>
                     <tr>
@@ -65,21 +92,51 @@
                     </tr>
                 </tbody>
             </table>
+
+            <details>
+                <summary>World Time</summary>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Zone</th>
+                            <th>Time</th>
+                            <th>Offset</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($utilities->getWorldTime() as $tz => $tzData): ?>
+                        <tr>
+                            <td><?= $tz ?></td>
+                            <td><?= $tzData['time'] ?></td>
+                            <td><?= $tzData['offset'] ?></td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </details>
         </section>
         <section>
             <h2>Random Values</h2>
             <table>
                 <tbody>
                     <tr>
-                        <td>UUID</td>
+                        <td><abbr title="Random version 4 UUID">UUID</abbr></td>
                         <td><?= $utilities->getUuid() ?></td>
                     </tr>
                     <tr>
-                        <td>String</td>
+                        <td>
+                            <abbr title="A random string of 20 characters, including upper- and lowercase characters, numbers and symbols.">
+                            String
+                            </abbr>
+                        </td>
                         <td><?= htmlspecialchars($utilities->getPassword()) ?></td>
                     </tr>
                     <tr>
-                        <td>Phrase</td>
+                        <td>
+                            <abbr title="A random phrase of six English words. From EFF's diceware list.">
+                            Phrase
+                            </abbr>
+                        </td>
                         <td><?= $utilities->getPhrase() ?></td>
                     </tr>
                 </tbody>
@@ -91,7 +148,7 @@
             </p>
 
             <h3>Bytes</h3>
-            <p>32 random bytes as a hexadecimal string or a series of decimal integers.</p>
+            <p>32 random and cryptograhpically secure bytes as a hexadecimal string or a series of decimal integers.</p>
             <pre><code><?= $utilities->getBytesHex() ?></code></pre>
             <p class="notice"><?= implode(', ', $utilities->getBytesInt()) ?></>
 
@@ -99,6 +156,10 @@
 
         <section>
             <h2>HTTP Request</h2>
+
+            <p>
+                Information about the request that generated this document.
+            </p>
 
             <p><strong>Method: </strong><?= $request->getMethod() ?></p>
 
@@ -172,7 +233,8 @@
                 <form method="post" action="#request-body">
                     <p>
                         <label for="_body">
-                            Send a POST request with a given body:
+                            Send a POST request with a given body.
+                            The data will be hashed and encoded using various algorithms.
                         </label>
                         <textarea required id="_body" name="_body" rows="6"></textarea>
                     </p>
@@ -185,7 +247,7 @@
     </main>
 
     <footer>
-        <p>HTTP Utilities</p>
+        <p>utilities. | © 2024 <a href="https://tthe.se">tthe.se</a></p>
     </footer>
 </body>
 </html>

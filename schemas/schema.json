@@ -44,7 +44,7 @@
                 "message"
             ]
         },
-        "date": {
+        "datetime": {
             "type": "object",
             "description": "UTC time of generation in various forms.",
             "properties": {
@@ -60,13 +60,34 @@
                 "unix": {
                     "type": "string",
                     "description": "Unix epoch timetsamp."
+                },
+                "world": {
+                    "type": "object",
+                    "description": "The time of day for various locations across the world.",
+                    "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                            "time": {
+                                "type": "string"
+                            },
+                            "offset": {
+                                "type": "string"
+                            }
+                        },
+                        "additionalProperties": false,
+                        "required": [
+                            "time",
+                            "offset"
+                        ]
+                    }
                 }
             },
             "additionalProperties": false,
             "required": [
                 "iso",
                 "http",
-                "unix"
+                "unix",
+                "world"
             ]
         },
         "random": {
@@ -229,7 +250,7 @@
         "_links",
         "about",
         "status",
-        "date",
+        "datetime",
         "random",
         "request"
     ],

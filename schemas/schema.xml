@@ -9,7 +9,7 @@
             <xs:sequence>
                 <xs:element name="about" type="xs:string"/>
                 <xs:element name="status" type="statusType"/>
-                <xs:element name="date" type="dateType"/>
+                <xs:element name="datetime" type="dateType"/>
                 <xs:element name="random" type="randomType"/>
                 <xs:element name="request" type="requestType"/>
             </xs:sequence>
@@ -28,7 +28,23 @@
             <xs:element name="iso" type="xs:dateTime"/>
             <xs:element name="http" type="xs:string"/>
             <xs:element name="unix" type="xs:integer"/>
+            <xs:element name="world" type="worldTimeType"/>
         </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="worldTimeType">
+        <xs:sequence>
+            <xs:element name="time" type="timeType" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="timeType">
+        <xs:simpleContent>
+            <xs:extension base="xs:time">
+                <xs:attribute name="tz" type="xs:string" use="required"/>
+                <xs:attribute name="offset" type="xs:string" use="required"/>
+            </xs:extension>
+        </xs:simpleContent>
     </xs:complexType>
 
     <xs:complexType name="randomType">

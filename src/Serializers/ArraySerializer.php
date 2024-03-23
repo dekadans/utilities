@@ -15,7 +15,7 @@ trait ArraySerializer
         return [
             'about' => $data->getAbout(),
             'status' => $this->serializeStatus($data->status),
-            'date' => $this->serializeDate($data->utilities),
+            'datetime' => $this->serializeDate($data->utilities, $isXml),
             'random' => $this->serializeRandom($data->utilities),
             'request' => $this->serializeRequest($data->request, $data->body, $isXml)
         ];
@@ -64,12 +64,28 @@ trait ArraySerializer
         ];
     }
     
-    private function serializeDate(Utilities $utilities): array
+    private function serializeDate(Utilities $utilities, bool $isXml): array
     {
+        $world = $utilities->getWorldTime();
+        if ($isXml) {
+            $world = [
+                'time' => array_map(function($data, $tz) {
+                    return [
+                        '_attributes' => [
+                            'tz' => $tz,
+                            'offset' => $data['offset']
+                        ],
+                        '_value' => $data['time']
+                    ];
+                }, $world, array_keys($world))
+            ];
+        }
+
         return [
             'iso' => $utilities->getTimeIso(),
             'http' => $utilities->getTimeHttp(),
             'unix' => $utilities->getTimeUnix(),
+            'world' => $world
         ];
     }
 

@@ -92,4 +92,44 @@ readonly class Utilities
     {
         return $this->datetime->format('U');
     }
+
+    public function getWorldTime(): array
+    {
+        $tz = [
+            'Pacific/Honolulu',
+            'America/Los_Angeles',
+            'America/Mexico_City',
+            'America/Chicago',
+            'America/New_York',
+            'America/Sao_Paulo',
+            'Africa/Lagos',
+            'Africa/Johannesburg',
+            'Europe/London',
+            'Europe/Paris',
+            'Europe/Kyiv',
+            'Europe/Istanbul',
+            'Asia/Tehran',
+            'Asia/Dubai',
+            'Asia/Karachi',
+            'Asia/Kolkata',
+            'Asia/Dhaka',
+            'Asia/Jakarta',
+            'Asia/Shanghai',
+            'Asia/Tokyo',
+            'Australia/Sydney',
+            'Pacific/Auckland'
+        ];
+
+        $times = [];
+
+        foreach ($tz as $zone) {
+            $dt = $this->datetime->setTimezone(new \DateTimeZone($zone));
+            $times[$zone] = [
+                'time' => $dt->format('H:i:s'),
+                'offset' => $dt->format('P')
+            ];
+        }
+
+        return $times;
+    }
 }
