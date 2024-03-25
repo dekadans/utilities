@@ -55,11 +55,11 @@
                 },
                 "http": {
                     "type": "string",
-                    "description": "Datetime in form defined for HTTP in RFC 7231."
+                    "description": "Datetime in the form defined for HTTP in RFC 7231."
                 },
                 "unix": {
                     "type": "string",
-                    "description": "Unix epoch timetsamp."
+                    "description": "Unix epoch timestamp."
                 },
                 "world": {
                     "type": "object",
