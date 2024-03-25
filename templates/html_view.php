@@ -38,10 +38,7 @@
             <summary>Features</summary>
             <ul>
                 <li>
-                    JSON &amp; XML versions, using the links above or the <code>Accept</code> header.
-                    <ul>
-                        <li>Schemas are available for both formats.</li>
-                    </ul>
+                    JSON &amp; XML versions, with schemas, available using the links at the top or the <code>Accept</code> header.
                 </li>
                 <li>
                     Date &amp; time information in various formats and for locations around the world.
@@ -54,7 +51,6 @@
                 </li>
                 <li>
                     Explicitly set the HTTP response code using the <code>status</code> query parameter.
-                    For example: <a href="?status=404">?status=404</a>.
                 </li>
                 <li>
                     Request body hashing and encoding.
