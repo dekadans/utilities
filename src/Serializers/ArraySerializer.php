@@ -10,14 +10,16 @@ use tthe\UtilTool\Utilities;
 
 trait ArraySerializer
 {
-    private function toArray(ServiceResponse $data, bool $isXml = false): array
+    private bool $isXml = false;
+
+    private function toArray(ServiceResponse $data): array
     {
         return [
             'about' => $data->getAbout(),
             'status' => $this->serializeStatus($data->status),
-            'datetime' => $this->serializeDate($data->utilities, $isXml),
+            'datetime' => $this->serializeDate($data->utilities),
             'random' => $this->serializeRandom($data->utilities),
-            'request' => $this->serializeRequest($data->request, $data->body, $isXml)
+            'request' => $this->serializeRequest($data->request, $data->body)
         ];
     }
     
@@ -29,63 +31,92 @@ trait ArraySerializer
         ];
     }
     
-    private function serializeRequest(ServerRequestInterface $request, RequestBody $body, bool $isXml): array
+    private function serializeRequest(ServerRequestInterface $request, RequestBody $body): array
     {
-        if ($body->hasBody()) {
-            $raw = $isXml ? ['_cdata' => $body->getRaw()] : $body->getRaw();
-            $parsed = $isXml && empty($body->getParsed()) ? $this->xmlNil() : $body->getParsed();
+        return [
+            'method' => $request->getMethod(),
+            'headers' => $this->serializeHeaders($request->getHeaders()),
+            'query' => $this->serializeQuery($request),
+            'body' => $this->serializeBody($body)
+        ];
+    }
 
-            $bodySerialized = [
-                'raw' => $raw,
-                'parsed' => $parsed,
-                'md5' => md5($body->getRaw()),
-                'sha1' => sha1($body->getRaw()),
-                'sha256' => hash('sha256', $body->getRaw()),
-                'base64' => base64_encode($body->getRaw())
-            ];
-        } else {
-            $bodySerialized = $isXml ? $this->xmlNil() : null;
+    private function serializeHeaders(array $headers): array
+    {
+        if (!$this->isXml) {
+            return $headers;
         }
-        
-        if (!empty($request->getQueryParams())) {
-            $querySerialized = [
-                'raw' => $request->getUri()->getQuery(),
-                'parsed' => $request->getQueryParams()
-            ];
-        } else {
-            $querySerialized = $isXml ? $this->xmlNil() : null;
+
+        $xmlHeaders = [];
+        foreach ($headers as $name => $lines) {
+            foreach ($lines as $line) {
+                $xmlHeaders[] = [
+                    '_attributes' => [
+                        'name' => $name
+                    ],
+                    '_value' => $line
+                ];
+            }
+        }
+
+        return ['header' => $xmlHeaders];
+    }
+
+    private function serializeQuery(ServerRequestInterface $request): ?array
+    {
+        if (empty($request->getQueryParams())) {
+            return $this->null();
         }
 
         return [
-            'method' => $request->getMethod(),
-            'headers' => $request->getHeaders(),
-            'query' => $querySerialized,
-            'body' => $bodySerialized
+            'raw' => $request->getUri()->getQuery(),
+            'parsed' => $request->getQueryParams()
         ];
     }
-    
-    private function serializeDate(Utilities $utilities, bool $isXml): array
+
+    private function serializeBody(RequestBody $body): ?array
     {
-        $world = $utilities->getWorldTime();
-        if ($isXml) {
-            $world = [
-                'time' => array_map(function($data, $tz) {
-                    return [
-                        '_attributes' => [
-                            'tz' => $tz,
-                            'offset' => $data['offset']
-                        ],
-                        '_value' => $data['time']
-                    ];
-                }, $world, array_keys($world))
-            ];
+        if (!$body->hasBody()) {
+            return $this->null();
         }
 
+        $raw = $this->isXml ? ['_cdata' => $body->getRaw()] : $body->getRaw();
+        return [
+            'raw' => $raw,
+            'parsed' => $body->getParsed() ?: $this->null(),
+            'md5' => md5($body->getRaw()),
+            'sha1' => sha1($body->getRaw()),
+            'sha256' => hash('sha256', $body->getRaw()),
+            'base64' => base64_encode($body->getRaw())
+        ];
+    }
+
+    private function serializeDate(Utilities $utilities): array
+    {
         return [
             'iso' => $utilities->getTimeIso(),
             'http' => $utilities->getTimeHttp(),
             'unix' => $utilities->getTimeUnix(),
-            'world' => $world
+            'world' => $this->serializeWorldTime($utilities->getWorldTime())
+        ];
+    }
+
+    private function serializeWorldTime(array $worldTime): array
+    {
+        if (!$this->isXml) {
+            return $worldTime;
+        }
+
+        return [
+            'time' => array_map(function($data, $tz) {
+                return [
+                    '_attributes' => [
+                        'tz' => $tz,
+                        'offset' => $data['offset']
+                    ],
+                    '_value' => $data['time']
+                ];
+            }, $worldTime, array_keys($worldTime))
         ];
     }
 
@@ -95,7 +126,7 @@ trait ArraySerializer
             'uuid' => $utilities->getUuid(),
             'string' => $utilities->getPassword(),
             'phrase' => $utilities->getPhrase(),
-            'sentence' => $utilities->getSentences(),
+            'lorem' => $this->serializeLoremIpsum($utilities->getSentences()),
             'bytes' => [
                 'hex' => $utilities->getBytesHex(),
                 'int' => $utilities->getBytesInt()
@@ -103,8 +134,17 @@ trait ArraySerializer
         ];
     }
 
-    private function xmlNil(): array
+    private function serializeLoremIpsum(array $sentences): array
     {
-        return ['_attributes' => ['xsi:nil' => 'true']];
+        if (!$this->isXml) {
+            return $sentences;
+        }
+
+        return ['sentence' => $sentences];
+    }
+
+    private function null(): ?array
+    {
+        return $this->isXml ? ['_attributes' => ['xsi:nil' => 'true']] : null;
     }
 }

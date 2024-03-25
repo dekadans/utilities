@@ -33,7 +33,8 @@ class XmlSerializer implements SerializerInterface
             ]
         ];
 
-        $arrayData = $this->toArray($data, true);
+        $this->isXml = true;
+        $arrayData = $this->toArray($data);
 
         $xmlData = new ArrayToXml(
             $arrayData,
