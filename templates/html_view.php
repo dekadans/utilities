@@ -13,24 +13,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>utilities.</title>
-    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
     <style>
-        #request-body-container code {
+        #rrequest-body-container code {
             font-size: 0.9rem;
         }
-        #request-body-container pre {
+        #rrequest-body-container pre {
             line-height: 1;
             tab-size: 2;
+        }
+
+        section {
+            margin-top: 5rem;
+        }
+
+        table {
+            table-layout: auto;
+        }
+
+        #int-list code {
+            display: inline-block;
         }
     </style>
 </head>
 <body>
     <header>
-        <nav>
-            <a href="?format=json">JSON</a>
-            <a href="?format=xml">XML</a>
-        </nav>
         <h1><?= $status->code . ' ' . $status->message ?></h1>
+
+        <nav>
+            <a href="?format=json">JSON</a> | <a href="?format=xml">XML</a>
+        </nav>
     </header>
     <main>
         <p><?= $about ?></p>
@@ -139,14 +151,18 @@
             </table>
 
             <h3>Lorem Ipsum</h3>
-            <p class="notice">
+            <p class="">
                 <?= implode('<br><br>', $utilities->getSentences()) ?>
             </p>
 
             <h3>Bytes</h3>
             <p>32 random and cryptograhpically secure bytes as a hexadecimal string or a series of decimal integers.</p>
             <pre><code><?= $utilities->getBytesHex() ?></code></pre>
-            <p class="notice"><?= implode(', ', $utilities->getBytesInt()) ?></>
+            <p id="int-list">
+                <?php foreach ($utilities->getBytesInt() as $int): ?>
+                    <code><?= $int ?></code>
+                <?php endforeach; ?>
+            </p>
 
         </section>
 
@@ -204,21 +220,29 @@
                 <?php if ($body->hasBody()): ?>
                     <pre><code><?= htmlspecialchars($body->getRaw()) ?></code></pre>
 
-                    <details>
-                        <summary>Hash</summary>
-                        <p>
-                            MD5:<br>
-                            <code><?= md5($body->getRaw()) ?></code>
-                        </p>
-                        <p>
-                            SHA-1:<br>
-                            <code><?= sha1($body->getRaw()) ?></code>
-                        </p>
-                        <p>
-                            SHA-256:<br>
-                            <code><?= hash('sha256', $body->getRaw()) ?></code>
-                        </p>
-                    </details>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Algoritm</th>
+                                <th>Hashed body</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>MD5</td>
+                                <td><code><?= md5($body->getRaw()) ?></code></td>
+                            </tr>
+                            <tr>
+                                <td>SHA-1</td>
+                                <td><code><?= sha1($body->getRaw()) ?></code></td>
+                            </tr>
+                            <tr>
+                                <td>SHA-256</td>
+                                <td><code><?= hash('sha256', $body->getRaw()) ?></code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
 
                     <details>
                         <summary>Base64</summary>
