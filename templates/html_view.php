@@ -15,14 +15,6 @@
     <title>utilities.</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
     <style>
-        #rrequest-body-container code {
-            font-size: 0.9rem;
-        }
-        #rrequest-body-container pre {
-            line-height: 1;
-            tab-size: 2;
-        }
-
         section {
             margin-top: 5rem;
         }
