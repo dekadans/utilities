@@ -30,48 +30,31 @@
         table {
             table-layout: auto;
         }
-
-        #int-list code {
-            display: inline-block;
-        }
     </style>
 </head>
 <body>
     <header>
         <h1><?= $status->code . ' ' . $status->message ?></h1>
-
-        <nav>
-            <a href="?format=json">JSON</a> | <a href="?format=xml">XML</a>
-        </nav>
     </header>
     <main>
         <p><?= $about ?></p>
-        <details>
-            <summary>Features</summary>
+
+        <nav>
+            <h2>Media Types</h2>
+            <p>
+                This document has several other representations apart from this <code>text/html</code>.
+                They can be requested using the <code>Accept</code> header or using the links below.
+            </p>
             <ul>
                 <li>
-                    JSON &amp; XML versions, with schemas, available using the links at the top or the <code>Accept</code> header.
+                    <code><a href="?format=json">application/json</a></code> <small>(<a href="/meta/schemas/json">Schema</a>)</small>
                 </li>
+
                 <li>
-                    Date &amp; time information in various formats and for locations around the world.
-                </li>
-                <li>
-                    Useful randomly generated values.
-                </li>
-                <li>
-                    HTTP request inspection.
-                </li>
-                <li>
-                    Explicitly set the HTTP response code using the <code>status</code> query parameter.
-                </li>
-                <li>
-                    Request body hashing and encoding.
+                    <code><a href="?format=xml">application/xml</a></code> <small>(<a href="/meta/schemas/xml">Schema</a>)</small>
                 </li>
             </ul>
-            <p>
-            The source code is available at <a href="https://github.com/dekadans/utilities">Github</a>.
-            </p>
-        </details>
+        </nav>
 
         <section>
             <h2>Date &amp; Time</h2>
@@ -158,11 +141,11 @@
             <h3>Bytes</h3>
             <p>32 random and cryptograhpically secure bytes as a hexadecimal string or a series of decimal integers.</p>
             <pre><code><?= $utilities->getBytesHex() ?></code></pre>
-            <p id="int-list">
-                <?php foreach ($utilities->getBytesInt() as $int): ?>
-                    <code><?= $int ?></code>
-                <?php endforeach; ?>
-            </p>
+            <pre><code><?php
+            foreach (array_chunk($utilities->getBytesInt(), 8) as $chunk) {
+                echo implode("\t", $chunk) . "\n";
+            }
+            ?></code></pre>
 
         </section>
 
@@ -220,13 +203,8 @@
                 <?php if ($body->hasBody()): ?>
                     <pre><code><?= htmlspecialchars($body->getRaw()) ?></code></pre>
 
+                    <h4>Hashing</h4>
                     <table>
-                        <thead>
-                            <tr>
-                                <th>Algoritm</th>
-                                <th>Hashed body</th>
-                            </tr>
-                        </thead>
                         <tbody>
                             <tr>
                                 <td>MD5</td>
@@ -243,13 +221,10 @@
                         </tbody>
                     </table>
 
-
-                    <details>
-                        <summary>Base64</summary>
-                        <pre><code><code><?= base64_encode($body->getRaw()) ?></code></code></pre>
-                    </details>
+                    <h4>Base64</h4>
+                    <pre><code><code><?= chunk_split(base64_encode($body->getRaw())) ?></code></code></pre>
                 <?php endif; ?>
-
+                <hr>
                 <form method="post" action="#request-body">
                     <p>
                         <label for="_body">
