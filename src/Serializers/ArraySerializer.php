@@ -35,6 +35,7 @@ trait ArraySerializer
     {
         return [
             'method' => $request->getMethod(),
+            'uri' => (string) $request->getUri(),
             'headers' => $this->serializeHeaders($request->getHeaders()),
             'query' => $this->serializeQuery($request),
             'body' => $this->serializeBody($body)

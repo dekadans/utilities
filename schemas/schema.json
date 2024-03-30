@@ -164,6 +164,11 @@
                     "description": "HTTP method.",
                     "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"]
                 },
+                "uri": {
+                    "type": "string",
+                    "description": "The requested URI.",
+                    "format": "uri"
+                },
                 "headers": {
                     "type": "object",
                     "description": "Headers sent in the HTTP request.",
@@ -239,6 +244,7 @@
             "additionalProperties": false,
             "required": [
                 "method",
+                "uri",
                 "headers",
                 "query",
                 "body"

@@ -27,7 +27,6 @@
 <body>
     <header>
         <h1><?= $status->code . ' ' . $status->message ?></h1>
-        <!--<p><small>Set the response code using the <code>status</code> query parameter.</small></p>-->
         <hr>
     </header>
     <main>
@@ -35,6 +34,16 @@
 
         <details>
             <summary>Usage</summary>
+
+            <h3>General</h3>
+            <p>
+                This application will respond to (almost) any request to the base host
+                <code><?= $request->getUri()->getHost() ?></code>, regardless of path, query or request body.
+            </p>
+
+            <h3>Status</h3>
+            <p>Set the response code using the <code>status</code> query parameter. <a href="?status=418">Like this.</a></p>
+
             <h3>Media Types</h3>
             <p>
                 This document has several representations other than <code>text/html</code>.
@@ -44,13 +53,16 @@
                 <li>
                     <code><a href="?format=json">application/json</a></code> <small>(<a href="/meta/schemas/json">Schema</a>)</small>
                 </li>
-
+                <li>
+                    <code><a href="?format=text">text/plain</a></code> <small>(Only HTTP request inspection)</small>
+                </li>
                 <li>
                     <code><a href="?format=xml">application/xml</a></code> <small>(<a href="/meta/schemas/xml">Schema</a>)</small>
                 </li>
+                <li>
+                    <code><a href="?format=yaml">application/yaml</a></code>
+                </li>
             </ul>
-            <h3>Status</h3>
-            <p>Set the response code using the <code>status</code> query parameter.</p>
         </details>
 
         <nav>
@@ -158,6 +170,8 @@
             </p>
 
             <p><strong>Method: </strong><?= $request->getMethod() ?></p>
+
+            <p><strong>URI: </strong><?= $request->getUri() ?></p>
 
             <h3>Headers</h3>
             <table>

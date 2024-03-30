@@ -5,6 +5,7 @@ use Slim\Exception\HttpNotFoundException;
 use Slim\Factory\AppFactory;
 use Slim\Middleware\ContentLengthMiddleware;
 use Slim\Psr7\Factory\StreamFactory;
+use tthe\UtilTool\Exceptions\ReservedException;
 use tthe\UtilTool\Framework\BodyOverrideMiddleware;
 use tthe\UtilTool\Exceptions\HttpPayloadTooLargeException;
 use tthe\UtilTool\Serializers\SerializationFactory;
@@ -19,11 +20,13 @@ $app->addRoutingMiddleware();
 $app->addBodyParsingMiddleware();
 $app->add(new BodyOverrideMiddleware());
 $errorMiddleware = $app->addErrorMiddleware(false, false, false);
-
 $contentLengthMiddleware = new ContentLengthMiddleware();
 $app->add($contentLengthMiddleware);
 
 
+/**
+ * Serving JSON and XML schema resources.
+ */
 $app->get('/meta/schemas/{format}', function (Request $request, Response $response, $args) {
     $format = $args['format'];
     $file = "../schemas/schema.$format";
@@ -39,6 +42,17 @@ $app->get('/meta/schemas/{format}', function (Request $request, Response $respon
 })->setName('schema');
 
 
+/**
+ * Any other paths under /meta are reserved for future use.
+ */
+$app->any('/meta[/{params:.*}]', function (Request $request, Response $response, $args) {
+    throw new ReservedException($request);
+});
+
+
+/**
+ * Every other path will generate the main resource.
+ */
 $app->map(
     ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     '/[{params:.*}]',
@@ -58,7 +72,7 @@ $app->map(
 
         return $response->withStatus($data->status->code);
     }
-)->setName('main');
+);
 
 
 $app->run();

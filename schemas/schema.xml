@@ -73,6 +73,7 @@
     <xs:complexType name="requestType">
         <xs:sequence>
             <xs:element name="method" type="xs:string"/>
+            <xs:element name="uri" type="xs:anyURI"/>
             <xs:element name="headers" type="headerListType"/>
             <xs:element name="query" nillable="true" type="queryType"/>
             <xs:element name="body" nillable="true" type="bodyType"/>
