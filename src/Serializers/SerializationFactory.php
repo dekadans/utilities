@@ -15,7 +15,8 @@ class SerializationFactory
         return [
             'html' => HtmlSerializer::CONTENT_TYPE,
             'json' => JsonSerializer::CONTENT_TYPE,
-            'xml' => XmlSerializer::CONTENT_TYPE
+            'xml' => XmlSerializer::CONTENT_TYPE,
+            'yaml' => YamlSerializer::CONTENT_TYPE
         ];
     }
 
@@ -45,6 +46,7 @@ class SerializationFactory
             HtmlSerializer::CONTENT_TYPE => new HtmlSerializer($response),
             JsonSerializer::CONTENT_TYPE => new JsonSerializer($response, $uriFactory),
             XmlSerializer::CONTENT_TYPE => new XmlSerializer($response, $uriFactory),
+            YamlSerializer::CONTENT_TYPE => new YamlSerializer($response),
             default => throw new \RuntimeException('Invalid serialization'),
         };
     }
