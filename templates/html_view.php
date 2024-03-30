@@ -27,14 +27,17 @@
 <body>
     <header>
         <h1><?= $status->code . ' ' . $status->message ?></h1>
+        <!--<p><small>Set the response code using the <code>status</code> query parameter.</small></p>-->
+        <hr>
     </header>
     <main>
         <p><?= $about ?></p>
 
-        <nav>
-            <h2>Media Types</h2>
+        <details>
+            <summary>Usage</summary>
+            <h3>Media Types</h3>
             <p>
-                This document has several other representations apart from this <code>text/html</code>.
+                This document has several representations other than <code>text/html</code>.
                 They can be requested using the <code>Accept</code> header or using the links below.
             </p>
             <ul>
@@ -46,6 +49,12 @@
                     <code><a href="?format=xml">application/xml</a></code> <small>(<a href="/meta/schemas/xml">Schema</a>)</small>
                 </li>
             </ul>
+            <h3>Status</h3>
+            <p>Set the response code using the <code>status</code> query parameter.</p>
+        </details>
+
+        <nav>
+
         </nav>
 
         <section>
@@ -191,8 +200,8 @@
             <?php endif; ?>
 
             <div id="request-body-container">
-                <h3 id="request-body">Body</h3>
                 <?php if ($body->hasBody()): ?>
+                <h3 id="request-body">Body</h3>
                     <pre><code><?= htmlspecialchars($body->getRaw()) ?></code></pre>
 
                     <h4>Hashing</h4>
@@ -216,20 +225,23 @@
                     <h4>Base64</h4>
                     <pre><code><code><?= chunk_split(base64_encode($body->getRaw())) ?></code></code></pre>
                 <?php endif; ?>
-                <hr>
-                <form method="post" action="#request-body">
-                    <p>
-                        <label for="_body">
-                            Send a POST request with a given body.
-                            The data will be hashed and encoded using various algorithms.
-                        </label>
-                        <textarea required id="_body" name="_body" rows="6"></textarea>
-                    </p>
-                    <p>
-                        <button>Send</button>
-                    </p>
-                </form>
+
             </div>
+        </section>
+        <section>
+            <hr>
+            <form method="post" action="#request-body">
+            <p>
+                <label for="_body">
+                    Send a POST request with a given body.
+                    The data will be hashed and encoded using various algorithms.
+                </label>
+                <textarea required id="_body" name="_body" rows="6"></textarea>
+            </p>
+            <p>
+                <button>Send</button>
+            </p>
+        </form>
         </section>
     </main>
 
