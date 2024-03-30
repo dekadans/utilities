@@ -65,10 +65,6 @@
             </ul>
         </details>
 
-        <nav>
-
-        </nav>
-
         <section>
             <h2>Date &amp; Time</h2>
             <p>
