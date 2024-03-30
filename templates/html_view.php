@@ -218,7 +218,7 @@
                 <h3 id="request-body">Body</h3>
                     <pre><code><?= htmlspecialchars($body->getRaw()) ?></code></pre>
 
-                    <h4>Hashing</h4>
+                    <h4>Hashes</h4>
                     <table>
                         <tbody>
                             <tr>
@@ -247,20 +247,20 @@
             <form method="post" action="#request-body">
             <p>
                 <label for="_body">
-                    Send a POST request with a given body.
-                    The data will be hashed and encoded using various algorithms.
+                    Request body:
                 </label>
                 <textarea required id="_body" name="_body" rows="6"></textarea>
+                <small>Requests sent with a message body will have its contents hashed and base64 encoded.</small>
             </p>
             <p>
-                <button>Send</button>
+                <button>Send POST</button>
             </p>
         </form>
         </section>
     </main>
 
     <footer>
-        <p>utilities. | © 2024 <a href="https://tthe.se">tthe.se</a></p>
+        <p>utilities. | <a href="https://github.com/dekadans/utilities">Github</a> | © 2024 <a href="https://tthe.se">tthe.se</a></p>
     </footer>
 </body>
 </html>
