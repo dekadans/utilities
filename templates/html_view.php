@@ -192,7 +192,7 @@
                     <?php foreach ($request->getQueryParams() as $name => $value): ?>
                     <tr>
                         <td><?= htmlspecialchars($name) ?></td>
-                        <td><?= htmlspecialchars($value) ?></td>
+                        <td><?= htmlspecialchars(is_array($value) ? json_encode($value) : $value) ?></td>
                     </tr>
                     <?php endforeach; ?>
                     </tbody>

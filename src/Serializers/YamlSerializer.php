@@ -24,7 +24,7 @@ class YamlSerializer implements SerializerInterface
         
         $this->response->getBody()->write($yamlData);
         return $this->response
-            ->withHeader('Content-Type', 'application/yaml')
+            ->withHeader('Content-Type', self::CONTENT_TYPE)
             ->withHeader('Content-Disposition', 'filename="utilities.yaml"');
     }
 }

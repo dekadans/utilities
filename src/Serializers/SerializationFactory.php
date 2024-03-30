@@ -5,6 +5,7 @@ namespace tthe\UtilTool\Serializers;
 use Negotiation\Negotiator;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Slim\Views\PhpRenderer;
 use tthe\UtilTool\Exceptions\HttpNotAcceptableException;
 use tthe\UtilTool\Framework\UriFactory;
 
@@ -15,6 +16,7 @@ class SerializationFactory
         return [
             'html' => HtmlSerializer::CONTENT_TYPE,
             'json' => JsonSerializer::CONTENT_TYPE,
+            'text' => TextSerializer::CONTENT_TYPE,
             'xml' => XmlSerializer::CONTENT_TYPE,
             'yaml' => YamlSerializer::CONTENT_TYPE
         ];
@@ -45,6 +47,7 @@ class SerializationFactory
         return match ($selected) {
             HtmlSerializer::CONTENT_TYPE => new HtmlSerializer($response),
             JsonSerializer::CONTENT_TYPE => new JsonSerializer($response, $uriFactory),
+            TextSerializer::CONTENT_TYPE => new TextSerializer($response),
             XmlSerializer::CONTENT_TYPE => new XmlSerializer($response, $uriFactory),
             YamlSerializer::CONTENT_TYPE => new YamlSerializer($response),
             default => throw new \RuntimeException('Invalid serialization'),

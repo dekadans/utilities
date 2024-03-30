@@ -41,7 +41,7 @@ $app->get('/meta/schemas/{format}', function (Request $request, Response $respon
 
 $app->map(
     ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-    '/',
+    '/[{params:.*}]',
     function (Request $request, Response $response, $args) use ($app) {
         if (strlen($request->getBody()->getContents()) > 10000) {
             throw new HttpPayloadTooLargeException($request);
