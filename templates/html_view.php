@@ -63,12 +63,15 @@
 
             <h3>Media Types</h3>
             <p>
-                This document has several representations other than <code>text/html</code>.
+                This document is available in several different representations.
                 They can be requested using the <code>Accept</code> header or using the links below.
             </p>
             <ul>
                 <li>
                     <code><a href="?format=json">application/json</a></code> <small>(<a href="/meta/schemas/json">Schema</a>)</small>
+                </li>
+                <li>
+                    <code>text/html</code>
                 </li>
                 <li>
                     <code><a href="?format=text">text/plain</a></code> <small>(Only HTTP request inspection)</small>
@@ -160,7 +163,7 @@
             </table>
 
             <h3>Lorem Ipsum</h3>
-            <p class="">
+            <p>
                 <?= implode('<br><br>', $utilities->getSentences()) ?>
             </p>
 
@@ -210,7 +213,7 @@
         </section>
         <section>
             <hr>
-            <form method="post" action="#request">
+            <form method="post" action="<?= $request->getUri() ?>#request">
             <p>
                 <label for="_body">
                     Request body:
