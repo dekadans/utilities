@@ -8,6 +8,7 @@ use Slim\Psr7\Factory\StreamFactory;
 use tthe\UtilTool\Exceptions\ReservedException;
 use tthe\UtilTool\Framework\BodyOverrideMiddleware;
 use tthe\UtilTool\Exceptions\HttpPayloadTooLargeException;
+use tthe\UtilTool\Framework\CorsMiddleware;
 use tthe\UtilTool\Serializers\SerializationFactory;
 use tthe\UtilTool\ServiceResponse;
 use tthe\UtilTool\Framework\UriFactory;
@@ -19,6 +20,7 @@ $app = AppFactory::create();
 $app->addRoutingMiddleware();
 $app->addBodyParsingMiddleware();
 $app->add(new BodyOverrideMiddleware());
+$app->add(new CorsMiddleware());
 $errorMiddleware = $app->addErrorMiddleware(false, false, false);
 $contentLengthMiddleware = new ContentLengthMiddleware();
 $app->add($contentLengthMiddleware);
@@ -71,6 +73,17 @@ $app->map(
         $response = $serializer->serialize($data);
 
         return $response->withStatus($data->status->code);
+    }
+);
+
+
+/**
+ * CORS preflights.
+ */
+$app->options(
+    '/[{params:.*}]',
+    function (Request $request, Response $response, $args) use ($app) {
+        return $response->withStatus(204);
     }
 );
 
