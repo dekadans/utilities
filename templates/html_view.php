@@ -5,6 +5,7 @@
  * @var \Psr\Http\Message\ServerRequestInterface $request
  * @var \tthe\UtilTool\RequestBody $body
  * @var \tthe\UtilTool\Utilities $utilities
+ * @var \tthe\UtilTool\HttpRepresentation $httpRepr
  */
 ?>
 <!DOCTYPE html>
@@ -21,6 +22,22 @@
 
         table {
             table-layout: auto;
+        }
+
+        .http-method {
+            color: #0033b3;
+        }
+        .http-path {
+            color: #067d17;
+        }
+        .http-protocol {
+            color: #9e880d;
+        }
+        .http-header {
+            color: #174ad4;
+        }
+        .http-header-value {
+            color: #000000;
         }
     </style>
 </head>
@@ -159,93 +176,46 @@
         </section>
 
         <section>
-            <h2>HTTP Request</h2>
+            <h2 id="request">HTTP Request</h2>
 
             <p>
-                Information about the request that generated this document.
+                This is an approximate representation of the HTTP request that generated this document.
             </p>
 
-            <p><strong>Method: </strong><?= $request->getMethod() ?></p>
+            <pre><code><?= $httpRepr->generateForHtml() ?></code></pre>
 
-            <p><strong>URI: </strong><?= $request->getUri() ?></p>
-
-            <h3>Headers</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($request->getHeaders() as $name => $values): ?>
-                        <?php foreach ($values as $value): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($name) ?></td>
-                            <td><?= htmlspecialchars($value) ?></td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-
-            <?php if (!empty($request->getQueryParams())): ?>
-                <h3>Query</h3>
+            <?php if ($body->hasBody()): ?>
+                <h3>Body</h3>
+                <h4>Hashes</h4>
                 <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Value</th>
-                        </tr>
-                    </thead>
                     <tbody>
-                    <?php foreach ($request->getQueryParams() as $name => $value): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($name) ?></td>
-                        <td><?= htmlspecialchars(is_array($value) ? json_encode($value) : $value) ?></td>
-                    </tr>
-                    <?php endforeach; ?>
+                        <tr>
+                            <td>MD5</td>
+                            <td><code><?= md5($body->getRaw()) ?></code></td>
+                        </tr>
+                        <tr>
+                            <td>SHA-1</td>
+                            <td><code><?= sha1($body->getRaw()) ?></code></td>
+                        </tr>
+                        <tr>
+                            <td>SHA-256</td>
+                            <td><code><?= hash('sha256', $body->getRaw()) ?></code></td>
+                        </tr>
                     </tbody>
                 </table>
+    
+                <h4>Base64</h4>
+                <pre><code><code><?= chunk_split(base64_encode($body->getRaw())) ?></code></code></pre>
             <?php endif; ?>
-
-            <div id="request-body-container">
-                <?php if ($body->hasBody()): ?>
-                <h3 id="request-body">Body</h3>
-                    <pre><code><?= htmlspecialchars($body->getRaw()) ?></code></pre>
-
-                    <h4>Hashes</h4>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>MD5</td>
-                                <td><code><?= md5($body->getRaw()) ?></code></td>
-                            </tr>
-                            <tr>
-                                <td>SHA-1</td>
-                                <td><code><?= sha1($body->getRaw()) ?></code></td>
-                            </tr>
-                            <tr>
-                                <td>SHA-256</td>
-                                <td><code><?= hash('sha256', $body->getRaw()) ?></code></td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <h4>Base64</h4>
-                    <pre><code><code><?= chunk_split(base64_encode($body->getRaw())) ?></code></code></pre>
-                <?php endif; ?>
-
-            </div>
         </section>
         <section>
             <hr>
-            <form method="post" action="#request-body">
+            <form method="post" action="#request">
             <p>
                 <label for="_body">
                     Request body:
                 </label>
-                <textarea required id="_body" name="_body" rows="6"></textarea>
+                <textarea required id="_body" name="_body" rows="6"><?= $body->getRaw() ?? '' ?></textarea>
                 <small>Requests sent with a message body will have its contents hashed and base64 encoded.</small>
             </p>
             <p>

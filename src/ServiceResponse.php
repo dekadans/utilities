@@ -10,6 +10,7 @@ readonly class ServiceResponse
     public RequestBody $body;
     public Utilities $utilities;
     public ServerRequestInterface $request;
+    public HttpRepresentation $httpRepr;
 
     public function __construct(ServerRequestInterface $request)
     {
@@ -17,6 +18,7 @@ readonly class ServiceResponse
         $this->status = new Status($this->request);
         $this->body = new RequestBody($this->request);
         $this->utilities = new Utilities();
+        $this->httpRepr = new HttpRepresentation($this->request, $this->body);
     }
 
     public function getAbout(): string
@@ -31,7 +33,8 @@ readonly class ServiceResponse
             'status' => $this->status,
             'utilities' => $this->utilities,
             'request' => $this->request,
-            'body' => $this->body
+            'body' => $this->body,
+            'httpRepr' => $this->httpRepr
         ];
     }
 }

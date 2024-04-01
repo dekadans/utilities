@@ -14,8 +14,8 @@ class SerializationFactory
     private static function available(): array
     {
         return [
-            'html' => HtmlSerializer::CONTENT_TYPE,
             'json' => JsonSerializer::CONTENT_TYPE,
+            'html' => HtmlSerializer::CONTENT_TYPE,
             'text' => TextSerializer::CONTENT_TYPE,
             'xml' => XmlSerializer::CONTENT_TYPE,
             'yaml' => YamlSerializer::CONTENT_TYPE
