@@ -34,10 +34,15 @@ $app->get('/meta/schemas/{format}', function (Request $request, Response $respon
     $file = "../schemas/schema.$format";
 
     if (is_file($file)) {
+        $mediaType = match ($format) {
+            'xml' => 'application/xml',
+            'json' => 'application/schema+json'
+        };
+
         $resource = (new StreamFactory())->createStreamFromFile($file);
         return $response
             ->withBody($resource)
-            ->withHeader('Content-Type', "application/$format");
+            ->withHeader('Content-Type', $mediaType);
     } else {
         throw new HttpNotFoundException($request);
     }

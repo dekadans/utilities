@@ -68,19 +68,19 @@
             </p>
             <ul>
                 <li>
-                    <code><a href="?format=json">application/json</a></code> <small>(<a href="/meta/schemas/json">Schema</a>)</small>
+                    <code><a href="?_accept=application/json">application/json</a></code> <small>(<a href="/meta/schemas/json">Schema</a>)</small>
                 </li>
                 <li>
                     <code>text/html</code>
                 </li>
                 <li>
-                    <code><a href="?format=text">text/plain</a></code> <small>(Only HTTP request inspection)</small>
+                    <code><a href="?_accept=text/plain">text/plain</a></code> <small>(Only HTTP request inspection)</small>
                 </li>
                 <li>
-                    <code><a href="?format=xml">application/xml</a></code> <small>(<a href="/meta/schemas/xml">Schema</a>)</small>
+                    <code><a href="?_accept=application/xml">application/xml</a></code> <small>(<a href="/meta/schemas/xml">Schema</a>)</small>
                 </li>
                 <li>
-                    <code><a href="?format=yaml">application/yaml</a></code>
+                    <code><a href="?_accept=application/yaml">application/yaml</a></code>
                 </li>
             </ul>
         </details>
