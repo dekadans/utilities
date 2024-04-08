@@ -64,7 +64,9 @@
             <h3>Media Types</h3>
             <p>
                 This document is available in several different representations.
-                They can be requested using the <code>Accept</code> header or using the links below.
+                They can be requested using the <code>Accept</code> header.
+                For clients (like browsers) that can't easily modify headers,
+                the <code>_accept</code> query parameter can be used as an alternative.
             </p>
             <ul>
                 <li>
@@ -83,6 +85,10 @@
                     <code><a href="?_accept=application/yaml">application/yaml</a></code>
                 </li>
             </ul>
+            <p>
+                A <abbr title="See RFC 9264 (Linkset: Media Types and a Link Relation Type for Link Sets)">linkset</abbr>
+                with a machine-readable index of available resources is <a href="/meta/linkset">available here</a>.
+            </p>
         </details>
 
         <section>

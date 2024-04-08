@@ -99,7 +99,7 @@ $app->map(
             ->withStatus($data->status->code)
             ->withHeader(
                 'Link',
-                "<$linksetUri>; rel=\"linkset\", <$rootUri>; rel=\"canonical\""
+                "<$linksetUri>; rel=\"linkset\"; type=\"application/linkset+json\", <$rootUri>; rel=\"canonical\""
             );
     }
 )->setName('main');
