@@ -8,7 +8,7 @@ use tthe\UtilTool\ServiceResponse;
 
 class HtmlSerializer implements SerializerInterface
 {
-    public const CONTENT_TYPE = 'text/html; charset=UTF-8';
+    public const CONTENT_TYPE = 'text/html';
     private ResponseInterface $response;
     private PhpRenderer $renderer;
 

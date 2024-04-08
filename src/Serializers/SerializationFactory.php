@@ -10,14 +10,14 @@ use tthe\UtilTool\Framework\UriFactory;
 
 class SerializationFactory
 {
-    private static function available(): array
+    public static function available(): array
     {
         return [
-            JsonSerializer::CONTENT_TYPE,
-            HtmlSerializer::CONTENT_TYPE,
-            TextSerializer::CONTENT_TYPE,
-            XmlSerializer::CONTENT_TYPE,
-            YamlSerializer::CONTENT_TYPE
+            JsonSerializer::CONTENT_TYPE => 'JSON version',
+            HtmlSerializer::CONTENT_TYPE => 'HTML version',
+            TextSerializer::CONTENT_TYPE => 'Text version (Only HTTP request inspection)',
+            XmlSerializer::CONTENT_TYPE => 'XML version',
+            YamlSerializer::CONTENT_TYPE => 'YAML version'
         ];
     }
 
@@ -30,7 +30,7 @@ class SerializationFactory
             ?? implode(',', $request->getHeader('Accept'))
             ?: '*/*';
 
-        $mediaType = (new Negotiator())->getBest($accept, self::available());
+        $mediaType = (new Negotiator())->getBest($accept, array_keys(self::available()));
 
         if ($mediaType === null) {
             throw new HttpNotAcceptableException($request);
@@ -38,7 +38,7 @@ class SerializationFactory
 
         return match ($mediaType->getValue()) {
             HtmlSerializer::CONTENT_TYPE => new HtmlSerializer($response),
-            JsonSerializer::CONTENT_TYPE => new JsonSerializer($response, $uriFactory),
+            JsonSerializer::CONTENT_TYPE => new JsonSerializer($response),
             TextSerializer::CONTENT_TYPE => new TextSerializer($response),
             XmlSerializer::CONTENT_TYPE => new XmlSerializer($response, $uriFactory),
             YamlSerializer::CONTENT_TYPE => new YamlSerializer($response),

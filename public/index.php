@@ -9,6 +9,7 @@ use tthe\UtilTool\Exceptions\ReservedException;
 use tthe\UtilTool\Framework\BodyOverrideMiddleware;
 use tthe\UtilTool\Exceptions\HttpPayloadTooLargeException;
 use tthe\UtilTool\Framework\CorsMiddleware;
+use tthe\UtilTool\Linkset;
 use tthe\UtilTool\Serializers\SerializationFactory;
 use tthe\UtilTool\ServiceResponse;
 use tthe\UtilTool\Framework\UriFactory;
@@ -50,6 +51,21 @@ $app->get('/meta/schemas/{format}', function (Request $request, Response $respon
 
 
 /**
+ * Linkset (RFC 9264)
+ */
+$app->get('/meta/linkset', function (Request $request, Response $response, $args) use ($app) {
+    $uriFactory = new UriFactory(
+        $request,
+        $app->getRouteCollector()->getRouteParser()
+    );
+
+    $linkset = new Linkset($uriFactory);
+    $response->getBody()->write($linkset->toJson());
+    return $response->withHeader('Content-Type', 'application/linkset+json');
+})->setName('linkset');
+
+
+/**
  * Any other paths under /meta are reserved for future use.
  */
 $app->any('/meta[/{params:.*}]', function (Request $request, Response $response, $args) {
@@ -72,14 +88,21 @@ $app->map(
             $request,
             $app->getRouteCollector()->getRouteParser()
         );
+        $linksetUri = $uriFactory->linkset();
+        $rootUri = $uriFactory->root();
 
         $serializer = SerializationFactory::make($request, $response, $uriFactory);
         $data = new ServiceResponse($request);
         $response = $serializer->serialize($data);
 
-        return $response->withStatus($data->status->code);
+        return $response
+            ->withStatus($data->status->code)
+            ->withHeader(
+                'Link',
+                "<$linksetUri>; rel=\"linkset\", <$rootUri>; rel=\"canonical\""
+            );
     }
-);
+)->setName('main');
 
 
 /**

@@ -14,11 +14,21 @@ readonly class UriFactory
 
     }
     
-    public function uriForRoute(string $name, array $data): string
+    public function uriForRoute(string $name, array $data = []): string
     {
         return $this->routeParser->fullUrlFor($this->request->getUri(), $name, $data);
     }
     
+    public function root(): string
+    {
+        return $this->uriForRoute('main');
+    }
+
+     public function linkset(): string
+     {
+         return $this->uriForRoute('linkset');
+     }
+
     public function xmlSchema(): string
     {
         return $this->uriForRoute('schema', ['format' => 'xml']);

@@ -3,26 +3,6 @@
     "$id": "tag:tthe.se,2024:projects:utiltool:json:schema",
     "type": "object",
     "properties": {
-        "_links": {
-            "type": "object",
-            "additionalProperties": {
-                "type": "object",
-                "properties": {
-                    "href": {
-                        "type": "string",
-                        "format": "uri"
-                    },
-                    "title": {
-                        "type": "string"
-                    }
-                },
-                "additionalProperties": false,
-                "required": [
-                    "href",
-                    "title"
-                ]
-            }
-        },
         "about": {
             "description": "Short description about the document.",
             "type": "string"
@@ -253,7 +233,6 @@
     },
     "additionalProperties": false,
     "required": [
-        "_links",
         "about",
         "status",
         "datetime",
