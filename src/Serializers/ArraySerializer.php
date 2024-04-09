@@ -124,6 +124,7 @@ trait ArraySerializer
     private function serializeRandom(Utilities $utilities): array
     {
         return [
+            'bool' => $this->isXml ? (int) $utilities->getBool() : $utilities->getBool(),
             'uuid' => $utilities->getUuid(),
             'string' => $utilities->getPassword(),
             'phrase' => $utilities->getPhrase(),

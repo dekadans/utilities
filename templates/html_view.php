@@ -64,14 +64,10 @@
             <h3>Media Types</h3>
             <p>
                 This document is available in several different representations.
-                They can be requested using the <code>Accept</code> header.
-                For clients (like browsers) that can't easily modify headers,
-                the <code>_accept</code> query parameter can be used as an alternative.
+                They can be requested using the <code>Accept</code> header,
+                or the <code>_accept</code> query parameter.
             </p>
             <ul>
-                <li>
-                    <code><a href="?_accept=application/json">application/json</a></code> <small>(<a href="/meta/schemas/json">Schema</a>)</small>
-                </li>
                 <li>
                     <code>text/html</code>
                 </li>
@@ -82,7 +78,13 @@
                     <code><a href="?_accept=application/xml">application/xml</a></code> <small>(<a href="/meta/schemas/xml">Schema</a>)</small>
                 </li>
                 <li>
+                    <code><a href="?_accept=application/json">application/json</a></code> <small>(<a href="/meta/schemas/json">Schema</a>)</small>
+                </li>
+                <li>
                     <code><a href="?_accept=application/yaml">application/yaml</a></code>
+                </li>
+                <li>
+                    <code><a href="?_accept=application/cbor">application/cbor</a></code>
                 </li>
             </ul>
             <p>
@@ -145,6 +147,10 @@
             <h2>Random Values</h2>
             <table>
                 <tbody>
+                    <tr>
+                        <td>Coin flip</td>
+                        <td><?= $utilities->getBool() ? 'Heads' : 'Tails' ?></td>
+                    </tr>
                     <tr>
                         <td><abbr title="Random version 4 UUID">UUID</abbr></td>
                         <td><?= $utilities->getUuid() ?></td>

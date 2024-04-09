@@ -73,6 +73,10 @@
         "random": {
             "type": "object",
             "properties": {
+                "bool": {
+                    "type": "boolean",
+                    "description": "Randomly either true or false, like a coin flip."
+                },
                 "uuid": {
                     "type": "string",
                     "format": "uuid",
@@ -128,6 +132,7 @@
             },
             "additionalProperties": false,
             "required": [
+                "bool",
                 "uuid",
                 "string",
                 "phrase",

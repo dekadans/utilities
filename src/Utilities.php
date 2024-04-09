@@ -12,12 +12,19 @@ readonly class Utilities
 
     private \DateTimeImmutable $datetime;
 
+    private bool $bool;
     private string $bytes;
 
     public function __construct()
     {
         $this->datetime = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+        $this->bool = (bool) random_int(0, 1);
         $this->bytes = random_bytes(32);
+    }
+
+    public function getBool(): bool
+    {
+        return $this->bool;
     }
 
     public function getUuid(): string

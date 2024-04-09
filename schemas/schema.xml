@@ -49,6 +49,7 @@
 
     <xs:complexType name="randomType">
         <xs:sequence>
+            <xs:element name="bool" type="xs:boolean"/>
             <xs:element name="uuid" type="xs:string"/>
             <xs:element name="string" type="xs:string"/>
             <xs:element name="phrase" type="xs:string"/>

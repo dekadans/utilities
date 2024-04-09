@@ -17,7 +17,8 @@ class SerializationFactory
             HtmlSerializer::CONTENT_TYPE => 'HTML version',
             TextSerializer::CONTENT_TYPE => 'Text version (Only HTTP request inspection)',
             XmlSerializer::CONTENT_TYPE => 'XML version',
-            YamlSerializer::CONTENT_TYPE => 'YAML version'
+            YamlSerializer::CONTENT_TYPE => 'YAML version',
+            CborSerializer::CONTENT_TYPE => 'CBOR version'
         ];
     }
 
@@ -42,6 +43,7 @@ class SerializationFactory
             TextSerializer::CONTENT_TYPE => new TextSerializer($response),
             XmlSerializer::CONTENT_TYPE => new XmlSerializer($response, $uriFactory),
             YamlSerializer::CONTENT_TYPE => new YamlSerializer($response),
+            CborSerializer::CONTENT_TYPE => new CborSerializer($response),
             default => throw new \RuntimeException('Invalid serialization'),
         };
     }
