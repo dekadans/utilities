@@ -180,7 +180,7 @@
             </p>
 
             <h3>Bytes</h3>
-            <p>32 random and cryptograhpically secure bytes as a hexadecimal string or a series of decimal integers.</p>
+            <p>32 random and cryptographically secure bytes as a hexadecimal string or a series of decimal integers.</p>
             <pre><code><?= $utilities->getBytesHex() ?></code></pre>
             <pre><code><?php
             foreach (array_chunk($utilities->getBytesInt(), 8) as $chunk) {
