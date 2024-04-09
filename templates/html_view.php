@@ -55,7 +55,7 @@
             <h3>General</h3>
             <p>
                 This application will respond to (almost) any request to the base host
-                <code><?= $request->getUri()->getHost() ?></code>, regardless of path, query or request body.
+                <code><?= $request->getUri()->getHost() ?></code>, regardless of method, path, query or request body.
             </p>
 
             <h3>Status</h3>
