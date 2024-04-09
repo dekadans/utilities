@@ -38,7 +38,7 @@
                     "description": "Datetime in the form defined for HTTP in RFC 7231."
                 },
                 "unix": {
-                    "type": "string",
+                    "type": "integer",
                     "description": "Unix epoch timestamp."
                 },
                 "world": {

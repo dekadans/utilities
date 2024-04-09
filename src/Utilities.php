@@ -80,7 +80,7 @@ readonly class Utilities
     }
 
 
-    public function getBytesInt()
+    public function getBytesInt(): array
     {
         return array_map(ord(...), str_split($this->bytes));
     }
@@ -95,9 +95,9 @@ readonly class Utilities
         return $this->datetime->format(\DateTimeInterface::RFC7231);
     }
 
-    public function getTimeUnix(): string
+    public function getTimeUnix(): int
     {
-        return $this->datetime->format('U');
+        return intval($this->datetime->format('U'));
     }
 
     public function getWorldTime(): array
