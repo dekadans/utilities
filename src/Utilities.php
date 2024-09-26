@@ -100,6 +100,11 @@ readonly class Utilities
         return intval($this->datetime->format('U'));
     }
 
+    public function getWeek(): int
+    {
+        return intval($this->datetime->format('W'));
+    }
+
     public function getWorldTime(): array
     {
         $tz = [

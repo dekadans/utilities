@@ -75,10 +75,10 @@
                     <code><a href="?_accept=text/plain">text/plain</a></code> <small>(Only HTTP request inspection)</small>
                 </li>
                 <li>
-                    <code><a href="?_accept=application/xml">application/xml</a></code> <small>(<a href="/meta/schemas/xml">Schema</a>)</small>
+                    <code><a href="?_accept=application/xml">application/xml</a></code>
                 </li>
                 <li>
-                    <code><a href="?_accept=application/json">application/json</a></code> <small>(<a href="/meta/schemas/json">Schema</a>)</small>
+                    <code><a href="?_accept=application/json">application/json</a></code>
                 </li>
                 <li>
                     <code><a href="?_accept=application/yaml">application/yaml</a></code>
@@ -87,27 +87,27 @@
                     <code><a href="?_accept=application/cbor">application/cbor</a></code>
                 </li>
             </ul>
-            <p>
-                A <abbr title="See RFC 9264 (Linkset: Media Types and a Link Relation Type for Link Sets)">linkset</abbr>
-                with a machine-readable index of available resources is <a href="/meta/linkset">available here</a>.
-            </p>
+
+            <h4>Additional Resources</h4>
+            <ul>
+                <li>
+                    <a href="/meta/linkset">Linkset (RFC 9264)</a> &dash; Machine-readable index of available resources.
+                </li>
+                <li>
+                    <a href="/meta/schemas/json">JSON Schema</a> &dash; Describing the JSON, YAML and CBOR resources.
+                </li>
+                <li>
+                    <a href="/meta/schemas/xml">XML Schema (XSD)</a> &dash; Describing the XML resource.
+                </li>
+            </ul>
         </details>
 
         <section>
             <h2>Date &amp; Time</h2>
-            <p>
-                The current UTC date and time in a few common formats.
-            </p>
             <table>
-                <thead>
-                    <tr>
-                        <th>Format</th>
-                        <th>Value</th>
-                    </tr>
-                </thead>
                 <tbody>
                     <tr>
-                        <td>ISO 8601</td>
+                        <td>UTC - ISO 8601</td>
                         <td><?= $utilities->getTimeIso() ?></td>
                     </tr>
                     <tr>
@@ -117,6 +117,10 @@
                     <tr>
                         <td>Unix Epoch</td>
                         <td><?= $utilities->getTimeUnix() ?></td>
+                    </tr>
+                    <tr>
+                        <td>Week Number</td>
+                        <td><?= $utilities->getWeek() ?></td>
                     </tr>
                 </tbody>
             </table>
@@ -152,7 +156,7 @@
                         <td><?= $utilities->getBool() ? 'Heads' : 'Tails' ?></td>
                     </tr>
                     <tr>
-                        <td><abbr title="Random version 4 UUID">UUID</abbr></td>
+                        <td><abbr title="Random UUID - RFC 4122 version 4.">UUID</abbr></td>
                         <td><?= $utilities->getUuid() ?></td>
                     </tr>
                     <tr>

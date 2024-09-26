@@ -98,6 +98,7 @@ trait ArraySerializer
             'iso' => $utilities->getTimeIso(),
             'http' => $utilities->getTimeHttp(),
             'unix' => $utilities->getTimeUnix(),
+            'week' => $utilities->getWeek(),
             'world' => $this->serializeWorldTime($utilities->getWorldTime())
         ];
     }

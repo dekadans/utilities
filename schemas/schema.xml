@@ -28,6 +28,7 @@
             <xs:element name="iso" type="xs:dateTime"/>
             <xs:element name="http" type="xs:string"/>
             <xs:element name="unix" type="xs:integer"/>
+            <xs:element name="week" type="xs:integer"/>
             <xs:element name="world" type="worldTimeType"/>
         </xs:sequence>
     </xs:complexType>

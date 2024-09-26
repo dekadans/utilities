@@ -26,20 +26,24 @@
         },
         "datetime": {
             "type": "object",
-            "description": "UTC time of generation in various forms.",
+            "description": "Information about time and date.",
             "properties": {
                 "iso": {
                     "type": "string",
-                    "description": "ISO 8601 datetime.",
+                    "description": "UTC time of generation - ISO 8601.",
                     "format": "date-time"
                 },
                 "http": {
                     "type": "string",
-                    "description": "Datetime in the form defined for HTTP in RFC 7231."
+                    "description": "UTC time of generation - RFC 7231."
                 },
                 "unix": {
                     "type": "integer",
-                    "description": "Unix epoch timestamp."
+                    "description": "UTC time of generation - Unix epoch."
+                },
+                "week": {
+                    "type": "integer",
+                    "description": "ISO 8601 week number of year."
                 },
                 "world": {
                     "type": "object",
@@ -67,6 +71,7 @@
                 "iso",
                 "http",
                 "unix",
+                "week",
                 "world"
             ]
         },
@@ -80,7 +85,7 @@
                 "uuid": {
                     "type": "string",
                     "format": "uuid",
-                    "description": "Random version 4 UUID."
+                    "description": "Random UUID - RFC 4122 version 4."
                 },
                 "string": {
                     "type": "string",
