@@ -72,9 +72,6 @@
                     <code>text/html</code>
                 </li>
                 <li>
-                    <code><a href="?_accept=text/plain">text/plain</a></code> <small>(Only HTTP request inspection)</small>
-                </li>
-                <li>
                     <code><a href="?_accept=application/xml">application/xml</a></code>
                 </li>
                 <li>
@@ -85,6 +82,9 @@
                 </li>
                 <li>
                     <code><a href="?_accept=application/cbor">application/cbor</a></code>
+                </li>
+                <li>
+                    <code><a href="?_accept=text/plain">text/plain</a></code> <small>(Only HTTP request inspection)</small>
                 </li>
             </ul>
 

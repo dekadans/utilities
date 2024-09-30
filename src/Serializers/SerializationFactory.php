@@ -15,10 +15,10 @@ class SerializationFactory
         return [
             JsonSerializer::CONTENT_TYPE => 'JSON version',
             HtmlSerializer::CONTENT_TYPE => 'HTML version',
-            TextSerializer::CONTENT_TYPE => 'Text version (Only HTTP request inspection)',
             XmlSerializer::CONTENT_TYPE => 'XML version',
             YamlSerializer::CONTENT_TYPE => 'YAML version',
-            CborSerializer::CONTENT_TYPE => 'CBOR version'
+            CborSerializer::CONTENT_TYPE => 'CBOR version',
+            TextSerializer::CONTENT_TYPE => 'Text version (Only HTTP request inspection)'
         ];
     }
 
