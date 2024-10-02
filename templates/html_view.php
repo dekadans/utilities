@@ -24,6 +24,19 @@
             table-layout: auto;
         }
 
+        #color pre {
+            margin-bottom: 0;
+        }
+
+        #color code {
+            background-color: <?= $utilities->getRandomColor() ?>;
+        }
+
+        #color p {
+            margin-top: 0;
+            text-align: center;
+        }
+
         .http-method {
             color: #0033b3;
         }
@@ -178,10 +191,16 @@
                 </tbody>
             </table>
 
+            <h3>Color</h3>
+            <div id="color">
+                <pre><code>&nbsp;</code></pre>
+                <p><small><?= $utilities->getRandomColor() ?></small></p>
+            </div>
+
             <h3>Lorem Ipsum</h3>
-            <p>
-                <?= implode('<br><br>', $utilities->getSentences()) ?>
-            </p>
+            <?php foreach ($utilities->getSentences() as $item): ?>
+                <p><?= $item ?></p>
+            <?php endforeach; ?>
 
             <h3>Bytes</h3>
             <p>32 random and cryptographically secure bytes as a hexadecimal string or a series of decimal integers.</p>

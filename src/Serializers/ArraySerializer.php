@@ -129,6 +129,7 @@ trait ArraySerializer
             'uuid' => $utilities->getUuid(),
             'string' => $utilities->getPassword(),
             'phrase' => $utilities->getPhrase(),
+            'color' => $utilities->getRandomColor(),
             'lorem' => $this->serializeLoremIpsum($utilities->getSentences()),
             'bytes' => [
                 'hex' => $utilities->getBytesHex(),

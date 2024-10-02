@@ -97,6 +97,10 @@
                     "type": "string",
                     "description": "A random phrase of six English words. From EFF's diceware list."
                 },
+                "color": {
+                    "type": "string",
+                    "pattern": "^#[0-9a-f]{6}$"
+                },
                 "lorem": {
                     "type": "array",
                     "description": "Three random Lorem Ipsum sentences.",
@@ -141,6 +145,7 @@
                 "uuid",
                 "string",
                 "phrase",
+                "color",
                 "lorem",
                 "bytes"
             ]

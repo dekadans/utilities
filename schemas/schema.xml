@@ -54,6 +54,7 @@
             <xs:element name="uuid" type="xs:string"/>
             <xs:element name="string" type="xs:string"/>
             <xs:element name="phrase" type="xs:string"/>
+            <xs:element name="color" type="xs:string"/>
             <xs:element name="lorem" type="loremType"/>
             <xs:element name="bytes" type="bytesType"/>
         </xs:sequence>

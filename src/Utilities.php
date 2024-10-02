@@ -79,10 +79,14 @@ readonly class Utilities
         return bin2hex($this->bytes);
     }
 
-
     public function getBytesInt(): array
     {
         return array_map(ord(...), str_split($this->bytes));
+    }
+
+    public function getRandomColor(): string
+    {
+        return '#' . substr($this->getBytesHex(), 0, 6);
     }
 
     public function getTimeIso(): string
